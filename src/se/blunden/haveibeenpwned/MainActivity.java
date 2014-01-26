@@ -73,7 +73,7 @@ public class MainActivity extends Activity {
             });
 	}
 	
-	private void displayOutput(String site) {
+	private void displayOutput(String site, String restoredAccount) {
 		// Get a reference to the layout where the card will be displayed
 		final LinearLayout layout = (LinearLayout) findViewById(R.id.now_layout);
 		
@@ -87,8 +87,14 @@ public class MainActivity extends Activity {
 		Log.d(TAG, "displayOutput site: " + site);
 		
 		card.setSiteHeaderText(site);
-		if(!searchHistory.isEmpty()) {
-			card.setSiteAccountText("Compromised: " + searchHistory.peekLast());
+		
+		// Check if account is specified or pick the most recent from the search history if not
+		if(restoredAccount == null) {
+			if(!searchHistory.isEmpty()) {
+				card.setSiteAccountText("Compromised: " + searchHistory.peekLast());
+			}
+		} else {
+			card.setSiteAccountText(restoredAccount);
 		}
 		card.setSiteDescriptionText(siteDescriptions.get(site));
 		card.setLayoutParams(lp);
@@ -167,26 +173,29 @@ public class MainActivity extends Activity {
 	    super.onSaveInstanceState(outState);
 	    // Store all formatted card strings to be able to restore on configuration change
 	    ArrayList<String> savedHeaderStrings = new ArrayList<String>();
+	    ArrayList<String> savedAccountStrings = new ArrayList<String>();
 	    ViewGroup group = (ViewGroup) findViewById(R.id.now_layout);
 	    for (int i = 0, count = group.getChildCount(); i < count; ++i) {
 	        View view = group.getChildAt(i);
 	        if (view instanceof CardView) {
 	        	savedHeaderStrings.add(((CardView)view).getSiteHeaderView().getText().toString());
+	        	savedAccountStrings.add(((CardView)view).getSiteAccountView().getText().toString());
 	        }
 	    }
 	    outState.putStringArrayList("savedHeaderText", savedHeaderStrings);
+	    outState.putStringArrayList("savedAccountText", savedAccountStrings);
 	}
 	
 	@Override
 	protected void onRestoreInstanceState(Bundle savedInstanceState) {
 		// Retrieve saved strings
 		ArrayList<String> savedHeaderStrings = savedInstanceState.getStringArrayList("savedHeaderText");
-		Log.d(TAG, "restored savedHeaderText size: " + savedHeaderStrings.size());
+		ArrayList<String> savedAccountStrings = savedInstanceState.getStringArrayList("savedAccountText");
 		
 		// Add the cards back
-		if(savedHeaderStrings != null) {
-	    	for(String site : savedHeaderStrings) {
-	    		displayOutput(site);
+		if(savedHeaderStrings != null && savedAccountStrings != null) {
+	    	for(int i = 0; i < Math.max(savedHeaderStrings.size(), savedAccountStrings.size()); i++) {
+	    		displayOutput(savedHeaderStrings.get(i), savedAccountStrings.get(i));
 	    	}
 	    }
 		super.onRestoreInstanceState(savedInstanceState);
@@ -245,7 +254,7 @@ public class MainActivity extends Activity {
         		return;
         	} else if(!result.isEmpty()) {
         		for(String site : result) {
-        			displayOutput(site);
+        			displayOutput(site, null);
         		}
         	}
         }

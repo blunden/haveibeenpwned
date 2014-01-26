@@ -67,12 +67,16 @@ public class CardView extends LinearLayout {
 		}
 	}
 
-	public TextView getSiteDescriptionView() {
-		return siteDescriptionView;
-	}
-	
 	public TextView getSiteHeaderView() {
 		return siteHeaderView;
+	}
+	
+	public TextView getSiteAccountView() {
+		return siteAccountView;
+	}
+	
+	public TextView getSiteDescriptionView() {
+		return siteDescriptionView;
 	}
 	
 	private void initialize(Context context) {
