@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 public class MainActivity extends Activity {
 	private static final String TAG = "HaveIBeenPwned";
@@ -50,6 +51,8 @@ public class MainActivity extends Activity {
                 	
                 	// Clear the search field
                 	searchInputField.setText("");
+                	
+                	Toast.makeText(getBaseContext(), getString(R.string.toast_search), Toast.LENGTH_SHORT).show();
                 	
                 	// Perform the search using the AsyncTask
                 	new PerformSearchTask().execute(account);
@@ -215,7 +218,6 @@ public class MainActivity extends Activity {
         		return;
         	} else if(!result.isEmpty()) {
         		for(String site : result) {
-        			Log.d(TAG, "onPostExecute site: " + site);
         			displayOutput(site);
         		}
         	}
