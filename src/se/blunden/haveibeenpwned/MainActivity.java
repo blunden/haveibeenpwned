@@ -1,7 +1,11 @@
 package se.blunden.haveibeenpwned;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import org.json.JSONException;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -207,14 +211,25 @@ public class MainActivity extends Activity {
     		Log.d(TAG, "doInBackground account: " + accounts[0]);
     		HaveIBeenPwnedAPI api = new HaveIBeenPwnedAPI();
     		ArrayList<String> result = new ArrayList<String>(9);
-    		result = api.query(accounts[0]);
-    		Log.d(TAG, "doInBackground query result size: " + result.size());
+    		try {
+				result = api.query(accounts[0]);
+			} catch (URISyntaxException e) {
+				Toast.makeText(getBaseContext(), getString(R.string.error_invalid_uri_syntax), Toast.LENGTH_SHORT).show();
+				e.printStackTrace();
+			} catch (IOException e) {
+				Toast.makeText(getBaseContext(), getString(R.string.error_invalid_response), Toast.LENGTH_SHORT).show();
+				e.printStackTrace();
+			} catch (JSONException e) {
+				Toast.makeText(getBaseContext(), getString(R.string.error_json_parsing), Toast.LENGTH_SHORT).show();
+				e.printStackTrace();
+			}
     		return result;
         }
 
         protected void onPostExecute(ArrayList<String> result) {
         	if(result == null) {
         		Log.d(TAG, "onPostExecute: result is null");
+        		Toast.makeText(getBaseContext(), getString(R.string.error_result_null), Toast.LENGTH_SHORT).show();
         		return;
         	} else if(!result.isEmpty()) {
         		for(String site : result) {

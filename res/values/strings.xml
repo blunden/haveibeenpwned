@@ -13,6 +13,11 @@
 	<string name="menu_about">About</string>
 	<string name="menu_clear_all">Clear</string>
 	
+	<string name="error_result_null">No matches found</string>
+	<string name="error_invalid_uri_syntax">Invalid URI syntax</string>
+	<string name="error_invalid_response">Invalid response from server</string>
+	<string name="error_json_parsing">Unable to parse server response</string>
+	
 	<string name="card_description_adobe">The big one. In October 2013, 153 million accounts were breached with each containing an internal ID, username, email, encrypted password and a password hint in plain text. The password cryptography was poorly done and many were quickly resolved back to plain text. The unencrypted hints also disclosed much about the passwords adding further to the risk that hundreds of millions of Adobe customers already faced.</string>
 	<string name="card_description_battlefield_heroes">In June 2011 as part of a final breached data dump, the hacker collective "LulzSec" obtained and released over half a million usernames and passwords from the game Battlefield Heroes. The passwords were stored as MD5 hashes with no salt and many were easily converted back to their plain text versions.</string>
 	<string name="card_description_gawker">In December 2010, Gawker was attacked by the hacker collective "Gnosis" in retaliation for what was reported to be a feud between Gawker and 4Chan. Information about Gawkers 1.3M users was published along with the data from Gawker\'s other web presences including Gizmodo and Lifehacker. Due to the prevalence of password reuse, many victims of the breach then had their Twitter accounts compromised to send Acai berry spam.</string>
