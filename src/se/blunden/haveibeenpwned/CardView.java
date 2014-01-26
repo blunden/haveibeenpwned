@@ -13,6 +13,7 @@ import android.widget.TextView;
 public class CardView extends LinearLayout {
 
 	private TextView siteHeaderView;
+	private TextView siteAccountView;
 	private TextView siteDescriptionView;
 	
 	public CardView(Context context) {
@@ -48,6 +49,14 @@ public class CardView extends LinearLayout {
 		}
 	}
 	
+	public void setSiteAccountText(String account) {
+		if(account.equals("")) {
+			siteAccountView.setVisibility(GONE);
+		} else {
+			siteAccountView.setText(account);
+		}
+	}
+	
 	public void setSiteDescriptionText(String description) {
 		
 		if(description.equals("")) {
@@ -72,7 +81,8 @@ public class CardView extends LinearLayout {
 		mInflater.inflate(R.layout.now_card, this, true);
 		
 		// Save a reference to the different TextViews
-		siteHeaderView = (TextView)findViewById(R.id.card_site_header);
-		siteDescriptionView = (TextView)findViewById(R.id.card_site_description);
+		siteHeaderView = (TextView) findViewById(R.id.card_site_header);
+		siteAccountView = (TextView) findViewById(R.id.card_site_account);
+		siteDescriptionView = (TextView) findViewById(R.id.card_site_description);
 	}
 }

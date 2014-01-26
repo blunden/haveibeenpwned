@@ -2,6 +2,7 @@ package se.blunden.haveibeenpwned;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -33,6 +34,8 @@ public class MainActivity extends Activity {
 	private AlertDialog mAboutDialog;
 	private static HashMap<String, String> siteDescriptions = null;
 	
+	private static ArrayDeque<String> searchHistory = null;
+	
 	private EditText searchInputField;
 	private ImageButton searchButton;
 	
@@ -44,6 +47,8 @@ public class MainActivity extends Activity {
 		prepareAboutDialog();
 		populateDescriptionMap();
 		
+		searchHistory = new ArrayDeque<String>(4);
+		
         searchInputField = (EditText) findViewById(R.id.input_search);
 
         searchButton = (ImageButton) findViewById(R.id.button_search);
@@ -51,6 +56,10 @@ public class MainActivity extends Activity {
                 public void onClick(View view) {
                 	String account = searchInputField.getText().toString();
                 	
+                	// Add to search history
+                	if(!account.equals("") || account == null) {
+                		searchHistory.add(account);
+                	}
                 	Log.d(TAG, "Searching for account: " + account);
                 	
                 	// Clear the search field
@@ -78,6 +87,9 @@ public class MainActivity extends Activity {
 		Log.d(TAG, "displayOutput site: " + site);
 		
 		card.setSiteHeaderText(site);
+		if(!searchHistory.isEmpty()) {
+			card.setSiteAccountText("Compromised: " + searchHistory.peekLast());
+		}
 		card.setSiteDescriptionText(siteDescriptions.get(site));
 		card.setLayoutParams(lp);
 		
