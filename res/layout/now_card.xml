@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/now_card"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_card"
+    android:orientation="vertical"
+	android:clipToPadding="false" >
+
+    <TextView 
+        android:id="@+id/card_site_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="8dp"
+        android:paddingBottom="8dp"
+        android:textSize="@dimen/card_medium_text"
+        android:textColor="@color/card_title_text" >
+    </TextView>
+        
+    <TextView 
+        android:id="@+id/card_site_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="11dp"
+        android:textColor="@color/card_text" >	       
+    </TextView>
+            
+</LinearLayout>

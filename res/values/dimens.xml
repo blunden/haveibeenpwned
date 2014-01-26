@@ -1,7 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+    <dimen name="cards_padding_inbetween">10.0dip</dimen>
+    <dimen name="cards_padding_inbetween_adjusted">9.0dip</dimen>
+    <dimen name="search_bar_text_size">16.0sp</dimen>
+    <dimen name="search_box_margin_left">16.0dip</dimen>
+    <dimen name="search_box_margin_right">8.0dip</dimen>
+    <dimen name="search_plate_padding_right">8.0dip</dimen>
+    <dimen name="search_box_padding_bottom">9.0dip</dimen>
+    <dimen name="card_minimum_padding">8.0dip</dimen>
+    <dimen name="search_plate_expand_threshold">360.0dip</dimen>
+    <dimen name="search_plate_expand_threshold_d4">552.0dip</dimen>
+    <dimen name="search_plate_minimum_padding">12.0dip</dimen>
+    <dimen name="search_plate_icon_width">32.0dip</dimen>
+    <dimen name="search_plate_icon_height">34.0dip</dimen>
+    <dimen name="card_grid_font_size">14.0sp</dimen>
+    <dimen name="card_temperature_size">90.0dip</dimen>
+    <dimen name="card_xl_text">35.0sp</dimen>
+    <dimen name="card_large_text">25.0sp</dimen>
+    <dimen name="card_medium_text">18.0sp</dimen>
+    <dimen name="card_small_text">14.0sp</dimen>
+    <dimen name="card_action_small_text">12.0sp</dimen>
+    <dimen name="card_action_text">16.0sp</dimen>
+    <dimen name="card_padding">16.0dip</dimen>
+    <dimen name="card_action_button_height">48.0dip</dimen>
+    <dimen name="card_menu_button_height">32.0dip</dimen>
+    <dimen name="card_title_margin">-16.0dip</dimen>
+    <dimen name="card_small_padding">12.0dip</dimen>
+    <dimen name="card_spacer_margin">8.0dip</dimen>
+    <dimen name="card_corner_image_width">96.0dip</dimen>
+    <dimen name="card_list_image_width">64.0dip</dimen>
+    <dimen name="card_list_image_height">96.0dip</dimen>
+    <dimen name="bullet_list_gap_width">15.0dip</dimen>
+    <dimen name="card_button_overlap">32.0dip</dimen>
+    <dimen name="card_button_margin">-32.0dip</dimen>
+    <dimen name="feedback_scroll_viewport_margin">12.0dip</dimen>
+    
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
-
 </resources>

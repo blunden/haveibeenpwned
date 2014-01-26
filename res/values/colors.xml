@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item type="color" name="primary_text_normal">@*android:color/white</item>
+    <color name="primary_text_disabled">#66ffffff</color>
+    <color name="primary_text_inverse_disabled">#66000000</color>
+    <color name="activity_background">#ffeeeeee</color>
+    <color name="card_text">#ff8d8d8d</color>
+    <color name="card_title_text">#ff707070</color>
+    <color name="card_light_text">#ffb5b5b5</color>
+    <color name="card_grid_text">#ff707070</color>
+    <color name="card_separator">#ffe5e5e5</color>
+    <color name="card_border">#ffdedede</color>
+    <color name="image_pressed_highlight">#4435b5e6</color>
+    <color name="link_text">#ff33b5e5</color>
+    <color name="light_gray">#fff4f4f4</color>
+    <color name="gray">#ffbbbbbb</color>
+    <color name="medium_gray">#ff8d8d8d</color>
+    <color name="dark_gray">#ff707070</color>
+    <color name="translucent_black">#aa000000</color>
+    <color name="selection_highlight_color">#ffc9ebf8</color>
+    <color name="local_results_red">#ffe73030</color>
+    <color name="search_plate_text_color">#ff777777</color>
+    <color name="search_plate_hint_text_color">#ffcccccc</color>
+</resources>
