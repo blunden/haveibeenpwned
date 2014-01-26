@@ -46,6 +46,7 @@ public class HaveIBeenPwnedAPI {
 		URL requestURL = uri.toURL();
 		final HttpsURLConnection connection = (HttpsURLConnection) requestURL.openConnection();
 		connection.setRequestMethod("GET");
+		connection.setRequestProperty("User-Agent","se.blunden.HaveIBeenPwned/1.0");
 		connection.connect();
 		if(connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
 			final BufferedReader reader = new BufferedReader(
