@@ -195,20 +195,21 @@ public class MainActivity extends Activity {
 	}
 	
 	private void clearAllCards() {
-		ViewGroup group = (ViewGroup) findViewById(R.id.now_layout);
-		for (int i = 0, count = group.getChildCount(); i < count; i++) {
-	        View view = group.getChildAt(i);
-	        if (view instanceof CardView) {
-	        	Log.d(TAG, "clearAllCards i: " + i);
-	        	group.removeView(view);
-	        }
-	    }
-		// The loop above does not remove the first card if 3 or more have been added
-		// For now, remove the card at index 1 (index 0 is the input field) if it is indeed a card
-		View view = group.getChildAt(1);
-		if(view instanceof CardView) {
-			Log.d(TAG, "clearAllCards removing remaining card at index 1");
-        	group.removeView(view);
+		boolean finished = false;
+		while(!finished) {
+			ViewGroup group = (ViewGroup) findViewById(R.id.now_layout);
+			int count = group.getChildCount();
+			int i;
+			for (i = 0; i < count; i++) {
+				View view = group.getChildAt(i);
+		        if (view instanceof CardView) {
+		        	group.removeView(view);
+		        	break;
+		        }
+		    }
+			if(i == count) {
+				finished = true;
+			}
 		}
 	}
 	
