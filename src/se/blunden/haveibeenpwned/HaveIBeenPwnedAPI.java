@@ -42,8 +42,12 @@ public class HaveIBeenPwnedAPI {
 	public ArrayList<String> query(String account) throws URISyntaxException, IOException, JSONException {
 		String apiUrl = "https://haveibeenpwned.com/api/breachedaccount/";
 		ArrayList<String> response = new ArrayList<String>();
-		URI uri = new URI(apiUrl + account);
-		URL requestURL = uri.toURL();
+		URL requestURL = new URL(apiUrl + account);
+		
+		// Split and reassemble the URL to properly encode the relevant parts 
+		URI uri = new URI(requestURL.getProtocol(), requestURL.getHost(),
+				requestURL.getPath(), requestURL.getRef());
+		requestURL = uri.toURL();
 		final HttpsURLConnection connection = (HttpsURLConnection) requestURL.openConnection();
 		connection.setRequestMethod("GET");
 		connection.setRequestProperty("User-Agent","se.blunden.HaveIBeenPwned/1.0");
