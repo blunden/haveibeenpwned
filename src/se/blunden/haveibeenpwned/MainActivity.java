@@ -31,13 +31,16 @@ import android.content.DialogInterface.OnClickListener;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
@@ -68,27 +71,42 @@ public class MainActivity extends Activity {
 		searchHistory = new ArrayDeque<String>(4);
 		
         searchInputField = (EditText) findViewById(R.id.input_search);
+        
+        searchInputField.setOnEditorActionListener(new EditText.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                	performSearch();
+                    return true;
+                }
+                return false;
+            }
+        });
 
         searchButton = (ImageButton) findViewById(R.id.button_search);
         searchButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {
-                	String account = searchInputField.getText().toString().trim();
-                	
-                	// Add to search history
-                	if(!account.equals("") || account == null) {
-                		searchHistory.add(account);
-                	}
-                	Log.d(TAG, "Searching for account: " + account);
-                	
-                	// Clear the search field
-                	searchInputField.setText("");
-                	
-                	Toast.makeText(getBaseContext(), getString(R.string.toast_search), Toast.LENGTH_SHORT).show();
-                	
-                	// Perform the search using the AsyncTask
-                	new PerformSearchTask().execute(account);
+                	performSearch();
                 }
             });
+	}
+	
+	private void performSearch() {
+		String account = searchInputField.getText().toString().trim();
+    	
+    	// Add to search history
+    	if(!account.equals("") || account == null) {
+    		searchHistory.add(account);
+    	}
+    	Log.d(TAG, "Searching for account: " + account);
+    	
+    	// Clear the search field
+    	searchInputField.setText("");
+    	
+    	Toast.makeText(getBaseContext(), getString(R.string.toast_search), Toast.LENGTH_SHORT).show();
+    	
+    	// Perform the search using the AsyncTask
+    	new PerformSearchTask().execute(account);
 	}
 	
 	private void displayOutput(String site, String restoredAccount) {

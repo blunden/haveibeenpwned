@@ -47,6 +47,8 @@
 	            android:textSize="16sp"
 	            android:textColorHint="@color/search_plate_hint_text_color"
 	            android:hint="@string/input_search"
+	            android:imeOptions="actionSearch"
+	            android:inputType="text"
 	            android:maxLines="1"
 	            android:singleLine="true"
 	            android:layout_weight="1"
