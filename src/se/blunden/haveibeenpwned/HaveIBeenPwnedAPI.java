@@ -33,7 +33,7 @@ import org.json.JSONException;
 import android.util.Log;
 
 public class HaveIBeenPwnedAPI {
-	private static final String TAG = "HaveIBeenPwned";
+	private static final String TAG = "HaveIBeenPwnedAPI";
 	
 	public HaveIBeenPwnedAPI() {
 		
@@ -63,7 +63,7 @@ public class HaveIBeenPwnedAPI {
 			}
 			return response;
 		} else {
-			Log.d(TAG, connection.getResponseMessage());
+			Log.d(TAG, "Response: " + connection.getResponseCode() + connection.getResponseMessage());
 			return null;
 		}
 	}

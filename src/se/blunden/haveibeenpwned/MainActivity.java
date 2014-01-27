@@ -102,8 +102,6 @@ public class MainActivity extends Activity {
 		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 		lp.setMargins(0, 20, 0, 0);
 		
-		Log.d(TAG, "displayOutput site: " + site);
-		
 		// Set the internal state of the card
 		card.setSite(site);
 		
@@ -281,7 +279,7 @@ public class MainActivity extends Activity {
 	
 	private class PerformSearchTask extends AsyncTask<String, Void, ArrayList<String>> {
     	protected ArrayList<String> doInBackground(String... accounts) {
-    		Log.d(TAG, "doInBackground account: " + accounts[0]);
+    		//Log.d(TAG, "doInBackground account: " + accounts[0]);
     		HaveIBeenPwnedAPI api = new HaveIBeenPwnedAPI();
     		ArrayList<String> result = new ArrayList<String>(9);
     		try {
@@ -301,7 +299,6 @@ public class MainActivity extends Activity {
 
         protected void onPostExecute(ArrayList<String> result) {
         	if(result == null) {
-        		Log.d(TAG, "onPostExecute: result is null");
         		Toast.makeText(getBaseContext(), getString(R.string.error_result_null), Toast.LENGTH_SHORT).show();
         		return;
         	} else if(!result.isEmpty()) {
