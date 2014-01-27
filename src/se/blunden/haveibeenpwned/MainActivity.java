@@ -229,6 +229,7 @@ public class MainActivity extends Activity {
 	    }
 	    outState.putStringArrayList("savedSiteText", savedSiteStrings);
 	    outState.putStringArrayList("savedAccountText", savedAccountStrings);
+	    outState.putString("savedSearchInput", searchInputField.getText().toString());
 	}
 	
 	@Override
@@ -236,6 +237,9 @@ public class MainActivity extends Activity {
 		// Retrieve saved strings
 		ArrayList<String> savedSiteStrings = savedInstanceState.getStringArrayList("savedSiteText");
 		ArrayList<String> savedAccountStrings = savedInstanceState.getStringArrayList("savedAccountText");
+		
+		// Restore saved user search field input
+		searchInputField.setText(savedInstanceState.getString("savedSearchInput"));
 		
 		// Add the cards back
 		if(savedSiteStrings != null && savedAccountStrings != null) {
@@ -265,7 +269,10 @@ public class MainActivity extends Activity {
 			return true;
 		
 		case CLEAR_ALL_ID:
-			clearAllCards();
+			// Clear the search field
+        	searchInputField.setText("");
+			// Remove all the cards
+        	clearAllCards();
 			return true;
 		}
 
