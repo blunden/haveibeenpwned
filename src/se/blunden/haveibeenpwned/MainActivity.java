@@ -85,10 +85,10 @@ public class MainActivity extends Activity {
 
         searchButton = (ImageButton) findViewById(R.id.button_search);
         searchButton.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View view) {
-                	performSearch();
-                }
-            });
+            public void onClick(View view) {
+            	performSearch();
+            }
+        });
 	}
 	
 	private void performSearch() {
@@ -148,19 +148,19 @@ public class MainActivity extends Activity {
 		
         // Create the swipe-to-dismiss touch listener.
         card.setOnTouchListener(new SwipeDismissTouchListener(
-                card,
-                null,
-                new SwipeDismissTouchListener.DismissCallbacks() {
-                    @Override
-                    public boolean canDismiss(Object token) {
-                        return true;
-                    }
+            card,
+            null,
+            new SwipeDismissTouchListener.DismissCallbacks() {
+                @Override
+                public boolean canDismiss(Object token) {
+                    return true;
+                }
 
-                    @Override
-                    public void onDismiss(View view, Object token) {
-                    	layout.removeView(card);
-                    }
-                }));
+                @Override
+                public void onDismiss(View view, Object token) {
+                	layout.removeView(card);
+                }
+            }));
         
         layout.addView(card);
 	}
