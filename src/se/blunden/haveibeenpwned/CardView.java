@@ -31,6 +31,7 @@ public class CardView extends LinearLayout {
 	private TextView siteHeaderView;
 	private TextView siteAccountView;
 	private TextView siteDescriptionView;
+	private String siteState;
 	
 	public CardView(Context context) {
 		super(context);
@@ -93,6 +94,14 @@ public class CardView extends LinearLayout {
 	
 	public TextView getSiteDescriptionView() {
 		return siteDescriptionView;
+	}
+	
+	public String getSite() {
+		return siteState;
+	}
+	
+	public void setSite(String site) {
+		siteState = site;
 	}
 	
 	private void initialize(Context context) {

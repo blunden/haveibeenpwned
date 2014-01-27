@@ -48,6 +48,8 @@ public class MainActivity extends Activity {
 	
 	private static String aboutMessage = null;
 	private AlertDialog mAboutDialog;
+	
+	private static HashMap<String, String> siteNames = null;
 	private static HashMap<String, String> siteDescriptions = null;
 	
 	private static ArrayDeque<String> searchHistory = null;
@@ -61,7 +63,7 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.main);
 		
 		prepareAboutDialog();
-		populateDescriptionMap();
+		populateSiteData();
 		
 		searchHistory = new ArrayDeque<String>(4);
 		
@@ -102,7 +104,15 @@ public class MainActivity extends Activity {
 		
 		Log.d(TAG, "displayOutput site: " + site);
 		
-		card.setSiteHeaderText(site);
+		// Set the internal state of the card
+		card.setSite(site);
+		
+		// Show the prettier string if available
+		if(siteNames.containsKey(site)) {
+			card.setSiteHeaderText(siteNames.get(site));
+		} else {
+			card.setSiteHeaderText(site);
+		}
 		
 		// Check if account is specified or pick the most recent from the search history if not
 		if(restoredAccount == null) {
@@ -112,7 +122,12 @@ public class MainActivity extends Activity {
 		} else {
 			card.setSiteAccountText(restoredAccount);
 		}
-		card.setSiteDescriptionText(siteDescriptions.get(site));
+		
+		if(siteDescriptions.containsKey(site)) {
+			card.setSiteDescriptionText(siteDescriptions.get(site));
+		} else {
+			card.setSiteDescriptionText(getString(R.string.card_description_unavailable));
+		}
 		card.setLayoutParams(lp);
 		
         // Create the swipe-to-dismiss touch listener.
@@ -134,7 +149,20 @@ public class MainActivity extends Activity {
         layout.addView(card);
 	}
 	
-	private void populateDescriptionMap() {
+	private void populateSiteData() {
+		// Increase initial capacity when new sites are added to the service
+		siteNames = new HashMap<String, String>(9);
+		
+		siteNames.put("Adobe", getString(R.string.card_title_adobe));
+		siteNames.put("BattlefieldHeroes", getString(R.string.card_title_battlefield_heroes));
+		siteNames.put("Gawker", getString(R.string.card_title_gawker));
+		siteNames.put("PixelFederation", getString(R.string.card_title_pixel_federation));
+		siteNames.put("Snapchat", getString(R.string.card_title_snapchat));
+		siteNames.put("Sony", getString(R.string.card_title_sony));
+		siteNames.put("Stratfor", getString(R.string.card_title_stratfor));
+		siteNames.put("Vodafone", getString(R.string.card_title_vodafone));
+		siteNames.put("Yahoo", getString(R.string.card_title_yahoo));
+		
 		// Increase initial capacity when new sites are added to the service
 		siteDescriptions = new HashMap<String, String>(9);
 		
@@ -188,30 +216,30 @@ public class MainActivity extends Activity {
 	protected void onSaveInstanceState(Bundle outState) {
 	    super.onSaveInstanceState(outState);
 	    // Store all formatted card strings to be able to restore on configuration change
-	    ArrayList<String> savedHeaderStrings = new ArrayList<String>();
+	    ArrayList<String> savedSiteStrings = new ArrayList<String>();
 	    ArrayList<String> savedAccountStrings = new ArrayList<String>();
 	    ViewGroup group = (ViewGroup) findViewById(R.id.now_layout);
 	    for (int i = 0, count = group.getChildCount(); i < count; ++i) {
 	        View view = group.getChildAt(i);
 	        if (view instanceof CardView) {
-	        	savedHeaderStrings.add(((CardView)view).getSiteHeaderView().getText().toString());
+	        	savedSiteStrings.add(((CardView)view).getSite());
 	        	savedAccountStrings.add(((CardView)view).getSiteAccountView().getText().toString());
 	        }
 	    }
-	    outState.putStringArrayList("savedHeaderText", savedHeaderStrings);
+	    outState.putStringArrayList("savedSiteText", savedSiteStrings);
 	    outState.putStringArrayList("savedAccountText", savedAccountStrings);
 	}
 	
 	@Override
 	protected void onRestoreInstanceState(Bundle savedInstanceState) {
 		// Retrieve saved strings
-		ArrayList<String> savedHeaderStrings = savedInstanceState.getStringArrayList("savedHeaderText");
+		ArrayList<String> savedSiteStrings = savedInstanceState.getStringArrayList("savedSiteText");
 		ArrayList<String> savedAccountStrings = savedInstanceState.getStringArrayList("savedAccountText");
 		
 		// Add the cards back
-		if(savedHeaderStrings != null && savedAccountStrings != null) {
-	    	for(int i = 0; i < Math.max(savedHeaderStrings.size(), savedAccountStrings.size()); i++) {
-	    		displayOutput(savedHeaderStrings.get(i), savedAccountStrings.get(i));
+		if(savedSiteStrings != null && savedAccountStrings != null) {
+	    	for(int i = 0; i < Math.max(savedSiteStrings.size(), savedAccountStrings.size()); i++) {
+	    		displayOutput(savedSiteStrings.get(i), savedAccountStrings.get(i));
 	    	}
 	    }
 		super.onRestoreInstanceState(savedInstanceState);

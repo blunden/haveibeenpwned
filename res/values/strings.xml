@@ -19,6 +19,16 @@
 	<string name="error_invalid_response">Invalid response from server</string>
 	<string name="error_json_parsing">Unable to parse server response</string>
 	
+	<string name="card_title_adobe">Adobe</string>
+	<string name="card_title_battlefield_heroes">Battlefield Heroes</string>
+	<string name="card_title_gawker">Gawker</string>
+	<string name="card_title_pixel_federation">Pixel Federation</string>
+	<string name="card_title_snapchat">Snapchat</string>
+	<string name="card_title_sony">Sony</string>
+	<string name="card_title_stratfor">Stratfor</string>
+	<string name="card_title_vodafone">Vodafone</string>
+	<string name="card_title_yahoo">Yahoo</string>
+	
 	<!-- Descriptions pulled from haveibeenpwned.com. Copyright (C) Troy Hunt -->
 	<string name="card_description_adobe">The big one. In October 2013, 153 million accounts were breached with each containing an internal ID, username, email, encrypted password and a password hint in plain text. The password cryptography was poorly done and many were quickly resolved back to plain text. The unencrypted hints also disclosed much about the passwords adding further to the risk that hundreds of millions of Adobe customers already faced.</string>
 	<string name="card_description_battlefield_heroes">In June 2011 as part of a final breached data dump, the hacker collective "LulzSec" obtained and released over half a million usernames and passwords from the game Battlefield Heroes. The passwords were stored as MD5 hashes with no salt and many were easily converted back to their plain text versions.</string>
@@ -30,4 +40,5 @@
 	<string name="card_description_vodafone">In November 2013, Vodafone in Iceland suffered an attack attributed to the Turkish hacker collective "Maxn3y". The data was consequently publicly exposed and included user names, email addresses, social security numbers, SMS message, server logs and passwords from a variety of different internal sources.</string>
 	<string name="card_description_yahoo">In July 2012, Yahoo! had their online publishing service "Voices" compromised via a SQL injection attack. The breach resulted in the disclosure of nearly half a million usernames and passwords stored in plain text. The breach showed that of the compromised accounts, a staggering 59% of people who also had accounts in the Sony breached reused their passwords across both services.</string>
     
+	<string name="card_description_unavailable">No description available.</string>
 </resources>
