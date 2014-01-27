@@ -70,7 +70,7 @@ public class MainActivity extends Activity {
         searchButton = (ImageButton) findViewById(R.id.button_search);
         searchButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {
-                	String account = searchInputField.getText().toString();
+                	String account = searchInputField.getText().toString().trim();
                 	
                 	// Add to search history
                 	if(!account.equals("") || account == null) {
