@@ -3,7 +3,7 @@
 
     <string name="app_name">Have I Been Pwned?</string>
     
-    <string name="input_search">Enter an account</string>
+    <string name="input_search">Enter a username or email</string>
     <string name="button_search">Search</string>
     <string name="toast_search">Searching…</string>
     
