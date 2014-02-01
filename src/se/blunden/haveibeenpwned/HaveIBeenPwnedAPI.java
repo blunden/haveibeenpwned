@@ -42,6 +42,11 @@ public class HaveIBeenPwnedAPI {
 	public ArrayList<String> query(String account) throws URISyntaxException, IOException, JSONException {
 		String apiUrl = "https://haveibeenpwned.com/api/breachedaccount/";
 		ArrayList<String> response = new ArrayList<String>();
+		
+		// No need to generate api requests for empty searches
+		if(account.equals("")) {
+			return null;
+		}
 		URL requestURL = new URL(apiUrl + account);
 		
 		// Split and reassemble the URL to properly encode the relevant parts 
