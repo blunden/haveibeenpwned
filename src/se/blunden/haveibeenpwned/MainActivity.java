@@ -26,7 +26,9 @@ import org.json.JSONException;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.content.DialogInterface.OnClickListener;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -51,6 +53,7 @@ public class MainActivity extends Activity {
 	
 	private static String aboutMessage = null;
 	private AlertDialog mAboutDialog;
+	private SharedPreferences mPreferences;
 	
 	private static HashMap<String, String> siteNames = null;
 	private static HashMap<String, String> siteDescriptions = null;
@@ -64,6 +67,14 @@ public class MainActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
+		
+		// Explicitly specify the preference file to load instead of the default to actually make it read it properly
+		mPreferences = getApplicationContext().getSharedPreferences("preferences", Context.MODE_PRIVATE);
+		
+		if(isFirstLaunch()) {
+			displayHelpCard();			
+			storeFirstLaunch();
+		}
 		
 		prepareAboutDialog();
 		populateSiteData();
@@ -165,6 +176,41 @@ public class MainActivity extends Activity {
         layout.addView(card);
 	}
 	
+	private void displayHelpCard() {
+		// Get a reference to the layout where the card will be displayed
+		final LinearLayout layout = (LinearLayout) findViewById(R.id.now_layout);
+		
+		// Create the View for the card 
+		final HelpCardView card = new HelpCardView(this);
+		
+		// Specify layout parameters to be applied
+		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+		lp.setMargins(0, 20, 0, 0);
+		
+		card.setHeaderText(getString(R.string.card_title_help));
+		card.setDescriptionText(getString(R.string.card_description_help));
+		card.setDismissText(getString(R.string.card_swipe_dismiss));
+		card.setLayoutParams(lp);
+		
+        // Create the swipe-to-dismiss touch listener.
+        card.setOnTouchListener(new SwipeDismissTouchListener(
+            card,
+            null,
+            new SwipeDismissTouchListener.DismissCallbacks() {
+                @Override
+                public boolean canDismiss(Object token) {
+                    return true;
+                }
+
+                @Override
+                public void onDismiss(View view, Object token) {
+                	layout.removeView(card);
+                }
+            }));
+        
+        layout.addView(card);
+	}
+	
 	private void populateSiteData() {
 		// Increase initial capacity when new sites are added to the service
 		siteNames = new HashMap<String, String>(9);
@@ -218,7 +264,7 @@ public class MainActivity extends Activity {
 			int i;
 			for (i = 0; i < count; i++) {
 				View view = group.getChildAt(i);
-		        if (view instanceof CardView) {
+		        if (view instanceof CardView || view instanceof HelpCardView) {
 		        	group.removeView(view);
 		        	break;
 		        }
@@ -229,12 +275,24 @@ public class MainActivity extends Activity {
 		}
 	}
 	
+	private boolean isFirstLaunch() {
+    	return mPreferences.getBoolean("firstLaunch", true);
+    }
+	
+	private void storeFirstLaunch(){
+    	SharedPreferences.Editor editor = mPreferences.edit();
+    	
+    	editor.putBoolean("firstLaunch", false);
+    	editor.apply();
+    }
+	
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 	    super.onSaveInstanceState(outState);
 	    // Store all formatted card strings to be able to restore on configuration change
 	    ArrayList<String> savedSiteStrings = new ArrayList<String>();
 	    ArrayList<String> savedAccountStrings = new ArrayList<String>();
+	    boolean firstLaunch = false;
 	    ViewGroup group = (ViewGroup) findViewById(R.id.now_layout);
 	    for (int i = 0, count = group.getChildCount(); i < count; ++i) {
 	        View view = group.getChildAt(i);
@@ -242,10 +300,14 @@ public class MainActivity extends Activity {
 	        	savedSiteStrings.add(((CardView)view).getSite());
 	        	savedAccountStrings.add(((CardView)view).getSiteAccountView().getText().toString());
 	        }
+	        if (view instanceof HelpCardView) {
+	        	firstLaunch = true;
+	        }
 	    }
 	    outState.putStringArrayList("savedSiteText", savedSiteStrings);
 	    outState.putStringArrayList("savedAccountText", savedAccountStrings);
 	    outState.putString("savedSearchInput", searchInputField.getText().toString());
+	    outState.putBoolean("firstLaunch", firstLaunch);
 	}
 	
 	@Override
@@ -254,8 +316,15 @@ public class MainActivity extends Activity {
 		ArrayList<String> savedSiteStrings = savedInstanceState.getStringArrayList("savedSiteText");
 		ArrayList<String> savedAccountStrings = savedInstanceState.getStringArrayList("savedAccountText");
 		
+		boolean firstLaunch = savedInstanceState.getBoolean("firstLaunch");
+		
 		// Restore saved user search field input
 		searchInputField.setText(savedInstanceState.getString("savedSearchInput"));
+		
+		// Add the help card back
+		if(firstLaunch) {
+			displayHelpCard();
+		}
 		
 		// Add the cards back
 		if(savedSiteStrings != null && savedAccountStrings != null) {
