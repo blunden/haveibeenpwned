@@ -49,7 +49,7 @@
 	        
 	        <EditText 
 	            android:id="@+id/input_search"
-	            android:background="#00000000"
+	            android:background="@null"
 	            android:textColor="@color/search_plate_text_color"
 	            android:textSize="16sp"
 	            android:textColorHint="@color/search_plate_hint_text_color"
