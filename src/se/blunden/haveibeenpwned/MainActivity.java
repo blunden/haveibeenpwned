@@ -401,6 +401,7 @@ public class MainActivity extends Activity {
         }
 
         protected void onPostExecute(ArrayList<String> result) {
+        	hideSpinner();
         	if(result == null) {
         		Toast.makeText(getBaseContext(), getString(R.string.error_result_null), Toast.LENGTH_SHORT).show();
         		return;
@@ -409,7 +410,6 @@ public class MainActivity extends Activity {
         			displayOutput(site, null);
         		}
         	}
-        	hideSpinner();
         }
      }
 }
