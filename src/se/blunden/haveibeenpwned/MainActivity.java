@@ -114,6 +114,8 @@ public class MainActivity extends Activity {
     	// Clear the search field
     	searchInputField.setText("");
     	
+    	showSpinner();
+    	
     	Toast.makeText(getBaseContext(), getString(R.string.toast_search), Toast.LENGTH_SHORT).show();
     	
     	// Perform the search using the AsyncTask
@@ -209,6 +211,20 @@ public class MainActivity extends Activity {
             }));
         
         layout.addView(card);
+	}
+	
+	private void showSpinner() {
+		searchInputField.setVisibility(View.INVISIBLE);
+		
+		View spinner = findViewById(R.id.search_spinner);
+		spinner.setVisibility(View.VISIBLE);
+	}
+	
+	private void hideSpinner() {
+		View spinner = findViewById(R.id.search_spinner);
+		spinner.setVisibility(View.GONE);
+		
+		searchInputField.setVisibility(View.VISIBLE);
 	}
 	
 	private void populateSiteData() {
@@ -393,6 +409,7 @@ public class MainActivity extends Activity {
         			displayOutput(site, null);
         		}
         	}
+        	hideSpinner();
         }
      }
 }

@@ -27,10 +27,7 @@
         android:layout_height="wrap_content"
         android:background="#e3e3e3"
         android:orientation="vertical"
-		android:paddingTop="10dip"
-		android:paddingLeft="10dip"
-		android:paddingRight="10dip"
-		android:paddingBottom="10dip"
+		android:padding="10dip"
 		android:clipToPadding="false" >
 
         <LinearLayout 
@@ -40,6 +37,16 @@
             android:layout_height="wrap_content"
             android:padding="10dip" >
 
+	        <ProgressBar 
+	            android:id="@+id/search_spinner"
+	            android:layout_width="30dip"
+	            android:paddingLeft="-10dip"
+	            android:layout_height="match_parent"
+	            android:visibility="gone"
+	            android:background="@null"
+	            android:drawablePadding="0dip"
+	            style="?android:attr/progressBarStyle" />
+	        
 	        <EditText 
 	            android:id="@+id/input_search"
 	            android:background="#00000000"
