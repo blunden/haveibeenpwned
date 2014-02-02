@@ -1,4 +1,6 @@
-haveibeenpwned
+Have I Been Pwned?
 ==============
 
-Android app frontend to the "Have I been pwned?" service.
+This is a Google Now-styled Android app for the "Have I been pwned?" service.
+
+[Play Store](https://play.google.com/store/apps/details?id=se.blunden.haveibeenpwned)
