@@ -229,10 +229,11 @@ public class MainActivity extends Activity {
 	
 	private void populateSiteData() {
 		// Increase initial capacity when new sites are added to the service
-		siteNames = new HashMap<String, String>(9);
+		siteNames = new HashMap<String, String>(10);
 		
 		siteNames.put("Adobe", getString(R.string.card_title_adobe));
 		siteNames.put("BattlefieldHeroes", getString(R.string.card_title_battlefield_heroes));
+		siteNames.put("Bell", getString(R.string.card_title_bell));
 		siteNames.put("Gawker", getString(R.string.card_title_gawker));
 		siteNames.put("PixelFederation", getString(R.string.card_title_pixel_federation));
 		siteNames.put("Snapchat", getString(R.string.card_title_snapchat));
@@ -242,10 +243,11 @@ public class MainActivity extends Activity {
 		siteNames.put("Yahoo", getString(R.string.card_title_yahoo));
 		
 		// Increase initial capacity when new sites are added to the service
-		siteDescriptions = new HashMap<String, String>(9);
+		siteDescriptions = new HashMap<String, String>(10);
 		
 		siteDescriptions.put("Adobe", getString(R.string.card_description_adobe));
 		siteDescriptions.put("BattlefieldHeroes", getString(R.string.card_description_battlefield_heroes));
+		siteDescriptions.put("Bell", getString(R.string.card_description_bell));
 		siteDescriptions.put("Gawker", getString(R.string.card_description_gawker));
 		siteDescriptions.put("PixelFederation", getString(R.string.card_description_pixel_federation));
 		siteDescriptions.put("Snapchat", getString(R.string.card_description_snapchat));
