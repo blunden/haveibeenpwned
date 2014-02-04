@@ -28,6 +28,7 @@
 	<string name="card_title_sony">Sony</string>
 	<string name="card_title_stratfor">Stratfor</string>
 	<string name="card_title_vodafone">Vodafone</string>
+	<string name="card_title_wpt">WPT Amateur Poker League</string>
 	<string name="card_title_yahoo">Yahoo</string>
 	
 	<string name="card_title_help">Instructions</string>
@@ -42,8 +43,9 @@
 	<string name="card_description_sony">In 2011, Sony suffered breach after breach after breach — it was a very bad year for them. The breaches spanned various areas of the business ranging from the PlayStation network all the way through to the motion picture arm, Sony Pictures. A SQL Injection vulnerability in sonypictures.com lead to tens of thousands of accounts across multiple systems being exposed complete with plain text passwords.</string>
 	<string name="card_description_stratfor">In December 2011, "Anonymous" attacked the global intelligence company and consequently disclosed a veritable treasure trove of data including hundreds of gigabytes of email and tens of thousands of credit card details which were promptly used by the attackers to make charitable donations (among other uses). The breach also included 860,000 user accounts complete with email address, time zone, some internal system data and MD5 hashed passwords with no salt.</string>	
 	<string name="card_description_vodafone">In November 2013, Vodafone in Iceland suffered an attack attributed to the Turkish hacker collective "Maxn3y". The data was consequently publicly exposed and included user names, email addresses, social security numbers, SMS message, server logs and passwords from a variety of different internal sources.</string>
+	<string name="card_description_wpt">In January 2014, the World Poker Tour (WPT) Amateur Poker League website was hacked by the Twitter user @smitt3nz. The attack resulted in the public disclosure of 175,000 accounts including 148,000 email addresses. The plain text password for each account was also included in the breach.</string>
 	<string name="card_description_yahoo">In July 2012, Yahoo! had their online publishing service "Voices" compromised via a SQL injection attack. The breach resulted in the disclosure of nearly half a million usernames and passwords stored in plain text. The breach showed that of the compromised accounts, a staggering 59% of people who also had accounts in the Sony breached reused their passwords across both services.</string>
-    
+	
 	<string name="card_description_unavailable">No description available.</string>
 	<string name="card_description_help">Use the search field above to search for a username or email address to see if they were compromised in any of the hacks in recent years indexed by the \'Have I been pwned?\' service.</string>
 	

@@ -229,7 +229,7 @@ public class MainActivity extends Activity {
 	
 	private void populateSiteData() {
 		// Increase initial capacity when new sites are added to the service
-		siteNames = new HashMap<String, String>(10);
+		siteNames = new HashMap<String, String>(11);
 		
 		siteNames.put("Adobe", getString(R.string.card_title_adobe));
 		siteNames.put("BattlefieldHeroes", getString(R.string.card_title_battlefield_heroes));
@@ -240,10 +240,11 @@ public class MainActivity extends Activity {
 		siteNames.put("Sony", getString(R.string.card_title_sony));
 		siteNames.put("Stratfor", getString(R.string.card_title_stratfor));
 		siteNames.put("Vodafone", getString(R.string.card_title_vodafone));
+		siteNames.put("WPT", getString(R.string.card_title_wpt));
 		siteNames.put("Yahoo", getString(R.string.card_title_yahoo));
 		
 		// Increase initial capacity when new sites are added to the service
-		siteDescriptions = new HashMap<String, String>(10);
+		siteDescriptions = new HashMap<String, String>(11);
 		
 		siteDescriptions.put("Adobe", getString(R.string.card_description_adobe));
 		siteDescriptions.put("BattlefieldHeroes", getString(R.string.card_description_battlefield_heroes));
@@ -254,6 +255,7 @@ public class MainActivity extends Activity {
 		siteDescriptions.put("Sony", getString(R.string.card_description_sony));
 		siteDescriptions.put("Stratfor", getString(R.string.card_description_stratfor));
 		siteDescriptions.put("Vodafone", getString(R.string.card_description_vodafone));
+		siteDescriptions.put("WPT", getString(R.string.card_description_wpt));
 		siteDescriptions.put("Yahoo", getString(R.string.card_description_yahoo));
 	}
 	
