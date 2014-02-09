@@ -17,6 +17,7 @@
 package se.blunden.haveibeenpwned;
 
 import android.content.Context;
+import android.text.Html;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.animation.Animation;
@@ -32,21 +33,23 @@ public class CardView extends LinearLayout {
 	private TextView siteHeaderView;
 	private TextView siteAccountView;
 	private TextView siteDescriptionView;
-	private String siteState;
 	
-	public CardView(Context context) {
+	// Store a Breach object with all relevant data about the breach
+	private Breach breachData;
+	
+	public CardView(Context context, Breach breach) {
 		super(context);
-		initialize(context);
+		initialize(context, breach);
 	}
 	
-	public CardView(Context context, AttributeSet attrs) {
+	public CardView(Context context, Breach breach, AttributeSet attrs) {
 		super(context, attrs);
-		initialize(context);
+		initialize(context, breach);
 	}
 	
-	public CardView(Context context, AttributeSet attrs, int defStyle) {
+	public CardView(Context context, Breach breach, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
-		initialize(context);
+		initialize(context, breach);
 	}
 
 	@Override
@@ -79,7 +82,7 @@ public class CardView extends LinearLayout {
 			siteHeaderView.setVisibility(GONE);
 			siteDescriptionView.setVisibility(GONE);
 		} else {
-			siteDescriptionView.setText(description);
+			siteDescriptionView.setText(Html.fromHtml(description));
 		}
 	}
 
@@ -95,22 +98,26 @@ public class CardView extends LinearLayout {
 		return siteDescriptionView;
 	}
 	
-	public String getSite() {
-		return siteState;
+	public Breach getBreach() {
+		return breachData;
 	}
 	
-	public void setSite(String site) {
-		siteState = site;
-	}
-	
-	private void initialize(Context context) {
+	private void initialize(Context context, Breach breach) {
 		// Inflate the card layout
-		LayoutInflater  mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		LayoutInflater  mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mInflater.inflate(R.layout.now_card, this, true);
 		
 		// Save a reference to the different TextViews
 		siteHeaderView = (TextView) findViewById(R.id.card_site_header);
 		siteAccountView = (TextView) findViewById(R.id.card_site_account);
 		siteDescriptionView = (TextView) findViewById(R.id.card_site_description);
+		
+		// Store the Breach object for later use, such as restoring state
+		breachData = breach;
+		
+		// Fill in the TextViews from the breach data
+		setSiteHeaderText(breach.getTitle());
+		setSiteAccountText("Compromised: " + breach.getAccount());
+		setSiteDescriptionText(breach.getDescription());
 	}
 }

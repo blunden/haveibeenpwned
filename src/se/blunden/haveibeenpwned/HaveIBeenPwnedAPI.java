@@ -16,8 +16,8 @@
 
 package se.blunden.haveibeenpwned;
 
-import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URI;
@@ -27,9 +27,7 @@ import java.util.ArrayList;
 
 import javax.net.ssl.HttpsURLConnection;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-
+import android.util.JsonReader;
 import android.util.Log;
 
 public class HaveIBeenPwnedAPI {
@@ -39,9 +37,8 @@ public class HaveIBeenPwnedAPI {
 		
 	}
 	
-	public ArrayList<String> query(String account) throws URISyntaxException, IOException, JSONException {
-		String apiUrl = "https://haveibeenpwned.com/api/breachedaccount/";
-		ArrayList<String> response = new ArrayList<String>();
+	public ArrayList<Breach> query(String account) throws URISyntaxException, IOException {
+		String apiUrl = "https://haveibeenpwned.com/api/v2/breachedaccount/";
 		
 		// No need to generate api requests for empty searches
 		if(account.equals("")) {
@@ -55,21 +52,56 @@ public class HaveIBeenPwnedAPI {
 		requestURL = uri.toURL();
 		final HttpsURLConnection connection = (HttpsURLConnection) requestURL.openConnection();
 		connection.setRequestMethod("GET");
-		connection.setRequestProperty("User-Agent","se.blunden.HaveIBeenPwned/1.0");
+		connection.setRequestProperty("User-Agent","se.blunden.HaveIBeenPwned");
 		connection.connect();
 		if(connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
-			final BufferedReader reader = new BufferedReader(
-                    new InputStreamReader(connection.getInputStream()));
-			String responseMessage = reader.readLine();
-            reader.close();
-			JSONArray jsonArray = new JSONArray(responseMessage);
-			for(int i = 0; i < jsonArray.length(); i++) {
-				response.add(jsonArray.getString(i));
-			}
-			return response;
+			return readJsonStream(connection.getInputStream(), account);
 		} else {
 			Log.d(TAG, "Response: " + connection.getResponseCode() + connection.getResponseMessage());
 			return null;
 		}
+	}
+	
+	private ArrayList<Breach> readJsonStream(InputStream in, String compromisedAccount) throws IOException {
+		JsonReader reader = new JsonReader(new InputStreamReader(in, "UTF-8"));
+	    try {
+	    	return readResponseArray(reader, compromisedAccount);
+	    } finally {
+	    	reader.close();
+	    }
+	}
+	
+	private ArrayList<Breach> readResponseArray(JsonReader reader, String compromisedAccount) throws IOException {
+		ArrayList<Breach> breaches = new ArrayList<Breach>();
+		
+		reader.beginArray();
+		while(reader.hasNext()) {
+			breaches.add(readBreach(reader, compromisedAccount));
+		}
+		reader.endArray();
+		return breaches;
+	}
+	
+	private Breach readBreach(JsonReader reader, String compromisedAccount) throws IOException {
+		String name = null;
+		String title = null;
+		String description = null;
+		String account = compromisedAccount;
+		
+		reader.beginObject();
+		while(reader.hasNext()) {
+			String tokenName = reader.nextName();
+			if(tokenName.equals("Name")) {
+				name = reader.nextString();
+			} else if(tokenName.equals("Title")) {
+				title = reader.nextString();
+			} else if(tokenName.equals("Description")) {
+				description = reader.nextString();
+			} else {
+				reader.skipValue();
+			}			
+		}
+		reader.endObject();
+		return new Breach(name, title, description, account);
 	}
 }

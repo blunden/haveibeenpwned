@@ -20,10 +20,6 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.HashMap;
-
-import org.json.JSONException;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -55,9 +51,6 @@ public class MainActivity extends Activity {
 	private AlertDialog mAboutDialog;
 	private SharedPreferences mPreferences;
 	
-	private static HashMap<String, String> siteNames = null;
-	private static HashMap<String, String> siteDescriptions = null;
-	
 	private static ArrayDeque<String> searchHistory = null;
 	
 	private EditText searchInputField;
@@ -77,7 +70,6 @@ public class MainActivity extends Activity {
 		}
 		
 		prepareAboutDialog();
-		populateSiteData();
 		
 		searchHistory = new ArrayDeque<String>(4);
 		
@@ -121,42 +113,18 @@ public class MainActivity extends Activity {
     	// Perform the search using the AsyncTask
     	new PerformSearchTask().execute(account);
 	}
-	
-	private void displayOutput(String site, String restoredAccount) {
+
+	private void displayOutput(Breach breach) {
 		// Get a reference to the layout where the card will be displayed
 		final LinearLayout layout = (LinearLayout) findViewById(R.id.now_layout);
 		
-		// Create the View for the card 
-		final CardView card = new CardView(this);
+		// Create the View for the card and pass along the breach data used to populate it
+		final CardView card = new CardView(this, breach);
 		
 		// Specify layout parameters to be applied
 		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 		lp.setMargins(0, 20, 0, 0);
 		
-		// Set the internal state of the card
-		card.setSite(site);
-		
-		// Show the prettier string if available
-		if(siteNames.containsKey(site)) {
-			card.setSiteHeaderText(siteNames.get(site));
-		} else {
-			card.setSiteHeaderText(site);
-		}
-		
-		// Check if account is specified or pick the most recent from the search history if not
-		if(restoredAccount == null) {
-			if(!searchHistory.isEmpty()) {
-				card.setSiteAccountText("Compromised: " + searchHistory.peekLast());
-			}
-		} else {
-			card.setSiteAccountText(restoredAccount);
-		}
-		
-		if(siteDescriptions.containsKey(site)) {
-			card.setSiteDescriptionText(siteDescriptions.get(site));
-		} else {
-			card.setSiteDescriptionText(getString(R.string.card_description_unavailable));
-		}
 		card.setLayoutParams(lp);
 		
         // Create the swipe-to-dismiss touch listener.
@@ -227,38 +195,6 @@ public class MainActivity extends Activity {
 		searchInputField.setVisibility(View.VISIBLE);
 	}
 	
-	private void populateSiteData() {
-		// Increase initial capacity when new sites are added to the service
-		siteNames = new HashMap<String, String>(11);
-		
-		siteNames.put("Adobe", getString(R.string.card_title_adobe));
-		siteNames.put("BattlefieldHeroes", getString(R.string.card_title_battlefield_heroes));
-		siteNames.put("Bell", getString(R.string.card_title_bell));
-		siteNames.put("Gawker", getString(R.string.card_title_gawker));
-		siteNames.put("PixelFederation", getString(R.string.card_title_pixel_federation));
-		siteNames.put("Snapchat", getString(R.string.card_title_snapchat));
-		siteNames.put("Sony", getString(R.string.card_title_sony));
-		siteNames.put("Stratfor", getString(R.string.card_title_stratfor));
-		siteNames.put("Vodafone", getString(R.string.card_title_vodafone));
-		siteNames.put("WPT", getString(R.string.card_title_wpt));
-		siteNames.put("Yahoo", getString(R.string.card_title_yahoo));
-		
-		// Increase initial capacity when new sites are added to the service
-		siteDescriptions = new HashMap<String, String>(11);
-		
-		siteDescriptions.put("Adobe", getString(R.string.card_description_adobe));
-		siteDescriptions.put("BattlefieldHeroes", getString(R.string.card_description_battlefield_heroes));
-		siteDescriptions.put("Bell", getString(R.string.card_description_bell));
-		siteDescriptions.put("Gawker", getString(R.string.card_description_gawker));
-		siteDescriptions.put("PixelFederation", getString(R.string.card_description_pixel_federation));
-		siteDescriptions.put("Snapchat", getString(R.string.card_description_snapchat));
-		siteDescriptions.put("Sony", getString(R.string.card_description_sony));
-		siteDescriptions.put("Stratfor", getString(R.string.card_description_stratfor));
-		siteDescriptions.put("Vodafone", getString(R.string.card_description_vodafone));
-		siteDescriptions.put("WPT", getString(R.string.card_description_wpt));
-		siteDescriptions.put("Yahoo", getString(R.string.card_description_yahoo));
-	}
-	
 	private void prepareAboutDialog() {
 		if (aboutMessage == null) {
 			aboutMessage = getString(R.string.about_message);
@@ -309,32 +245,30 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 	    super.onSaveInstanceState(outState);
-	    // Store all formatted card strings to be able to restore on configuration change
-	    ArrayList<String> savedSiteStrings = new ArrayList<String>();
-	    ArrayList<String> savedAccountStrings = new ArrayList<String>();
+	    // Store all breaches to be able to restore on configuration change
+	    ArrayList<Breach> savedBreaches = new ArrayList<Breach>();
 	    boolean firstLaunch = false;
+	    
 	    ViewGroup group = (ViewGroup) findViewById(R.id.now_layout);
 	    for (int i = 0, count = group.getChildCount(); i < count; ++i) {
 	        View view = group.getChildAt(i);
 	        if (view instanceof CardView) {
-	        	savedSiteStrings.add(((CardView)view).getSite());
-	        	savedAccountStrings.add(((CardView)view).getSiteAccountView().getText().toString());
+	        	savedBreaches.add(((CardView) view).getBreach());
 	        }
 	        if (view instanceof HelpCardView) {
 	        	firstLaunch = true;
 	        }
 	    }
-	    outState.putStringArrayList("savedSiteText", savedSiteStrings);
-	    outState.putStringArrayList("savedAccountText", savedAccountStrings);
+
+	    outState.putParcelableArrayList("savedBreaches", savedBreaches);
 	    outState.putString("savedSearchInput", searchInputField.getText().toString());
 	    outState.putBoolean("firstLaunch", firstLaunch);
 	}
 	
 	@Override
 	protected void onRestoreInstanceState(Bundle savedInstanceState) {
-		// Retrieve saved strings
-		ArrayList<String> savedSiteStrings = savedInstanceState.getStringArrayList("savedSiteText");
-		ArrayList<String> savedAccountStrings = savedInstanceState.getStringArrayList("savedAccountText");
+		// Retrieve saved breaches
+		ArrayList<Breach> savedBreaches = savedInstanceState.getParcelableArrayList("savedBreaches");
 		
 		boolean firstLaunch = savedInstanceState.getBoolean("firstLaunch");
 		
@@ -347,11 +281,12 @@ public class MainActivity extends Activity {
 		}
 		
 		// Add the cards back
-		if(savedSiteStrings != null && savedAccountStrings != null) {
-	    	for(int i = 0; i < Math.max(savedSiteStrings.size(), savedAccountStrings.size()); i++) {
-	    		displayOutput(savedSiteStrings.get(i), savedAccountStrings.get(i));
-	    	}
-	    }
+		if(savedBreaches != null) {
+			for(Breach breach : savedBreaches) {
+				displayOutput(breach);
+			}
+		}
+		
 		super.onRestoreInstanceState(savedInstanceState);
 	}
 	
@@ -384,11 +319,10 @@ public class MainActivity extends Activity {
 		return super.onMenuItemSelected(featureId, item);
 	}
 	
-	private class PerformSearchTask extends AsyncTask<String, Void, ArrayList<String>> {
-    	protected ArrayList<String> doInBackground(String... accounts) {
-    		//Log.d(TAG, "doInBackground account: " + accounts[0]);
+	private class PerformSearchTask extends AsyncTask<String, Void, ArrayList<Breach>> {
+    	protected ArrayList<Breach> doInBackground(String... accounts) {
     		HaveIBeenPwnedAPI api = new HaveIBeenPwnedAPI();
-    		ArrayList<String> result = new ArrayList<String>(9);
+    		ArrayList<Breach> result = new ArrayList<Breach>();
     		try {
 				result = api.query(accounts[0]);
 			} catch (URISyntaxException e) {
@@ -397,21 +331,18 @@ public class MainActivity extends Activity {
 			} catch (IOException e) {
 				Toast.makeText(getBaseContext(), getString(R.string.error_invalid_response), Toast.LENGTH_SHORT).show();
 				e.printStackTrace();
-			} catch (JSONException e) {
-				Toast.makeText(getBaseContext(), getString(R.string.error_json_parsing), Toast.LENGTH_SHORT).show();
-				e.printStackTrace();
 			}
     		return result;
         }
 
-        protected void onPostExecute(ArrayList<String> result) {
+        protected void onPostExecute(ArrayList<Breach> result) {
         	hideSpinner();
         	if(result == null) {
         		Toast.makeText(getBaseContext(), getString(R.string.error_result_null), Toast.LENGTH_SHORT).show();
         		return;
         	} else if(!result.isEmpty()) {
-        		for(String site : result) {
-        			displayOutput(site, null);
+        		for(Breach breach : result) {
+        			displayOutput(breach);
         		}
         	}
         }
