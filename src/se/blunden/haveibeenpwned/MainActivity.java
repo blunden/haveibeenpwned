@@ -108,8 +108,6 @@ public class MainActivity extends Activity {
     	
     	showSpinner();
     	
-    	Toast.makeText(getBaseContext(), getString(R.string.toast_search), Toast.LENGTH_SHORT).show();
-    	
     	// Perform the search using the AsyncTask
     	new PerformSearchTask().execute(account);
 	}
