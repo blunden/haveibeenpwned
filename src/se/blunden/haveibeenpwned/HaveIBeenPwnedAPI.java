@@ -27,6 +27,7 @@ import java.util.ArrayList;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import android.text.TextUtils;
 import android.util.JsonReader;
 import android.util.Log;
 
@@ -97,6 +98,10 @@ public class HaveIBeenPwnedAPI {
 				title = reader.nextString();
 			} else if(tokenName.equals("Description")) {
 				description = reader.nextString();
+				// Needed because the API currently returns improperly formatted/escaped data breaking URL parsing
+				String[] invalid = {"” ", " “", "”","“"};
+				String[] correct = {"\"", "\"", "\"", "\""};
+				description = TextUtils.replace(description, invalid, correct).toString();
 			} else {
 				reader.skipValue();
 			}			
