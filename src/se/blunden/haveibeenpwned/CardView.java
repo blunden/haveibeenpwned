@@ -18,6 +18,7 @@ package se.blunden.haveibeenpwned;
 
 import android.content.Context;
 import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.animation.Animation;
@@ -83,6 +84,7 @@ public class CardView extends LinearLayout {
 			siteDescriptionView.setVisibility(GONE);
 		} else {
 			siteDescriptionView.setText(Html.fromHtml(description));
+			siteDescriptionView.setMovementMethod(LinkMovementMethod.getInstance());
 		}
 	}
 
