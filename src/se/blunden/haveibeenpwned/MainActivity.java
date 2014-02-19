@@ -18,7 +18,6 @@ package se.blunden.haveibeenpwned;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -51,8 +50,10 @@ public class MainActivity extends Activity {
 	private AlertDialog mAboutDialog;
 	private SharedPreferences mPreferences;
 	
-	private static ArrayDeque<String> searchHistory = null;
+	private DBAdapter db;
+	private static ArrayList<String> searchHistory = null;
 	
+	private HistoryCardView historyCard;
 	private EditText searchInputField;
 	private ImageButton searchButton;
 	
@@ -64,6 +65,8 @@ public class MainActivity extends Activity {
 		// Explicitly specify the preference file to load instead of the default to actually make it read it properly
 		mPreferences = getApplicationContext().getSharedPreferences("preferences", Context.MODE_PRIVATE);
 		
+		db = new DBAdapter(this);
+		
 		if(isFirstLaunch()) {
 			displayHelpCard();			
 			storeFirstLaunch();
@@ -71,7 +74,10 @@ public class MainActivity extends Activity {
 		
 		prepareAboutDialog();
 		
-		searchHistory = new ArrayDeque<String>(4);
+		// Fetch the search history from the database and display the history card
+		new FetchHistoryTask().execute();
+		
+		searchHistory = new ArrayList<String>();
 		
         searchInputField = (EditText) findViewById(R.id.input_search);
         
@@ -97,9 +103,11 @@ public class MainActivity extends Activity {
 	private void performSearch() {
 		String account = searchInputField.getText().toString().trim();
     	
-    	// Add to search history
-    	if(!account.equals("") || account == null) {
+    	// Add to search history unless it matches the most recently searched account
+    	if(!account.equals("") && account != null && !matchesLatestSearch(account)) {
     		searchHistory.add(account);
+    		Log.d(TAG, "performSearch searchHistory: " + searchHistory);
+    		db.setOutdated(true);
     	}
     	Log.d(TAG, "Searching for account: " + account);
     	
@@ -179,6 +187,88 @@ public class MainActivity extends Activity {
         layout.addView(card);
 	}
 	
+	private void displayHistoryCard() {
+		// Get a reference to the layout where the card will be displayed
+		final LinearLayout layout = (LinearLayout) findViewById(R.id.now_layout);
+		
+		// Create the View for the card and save the reference
+		if(historyCard == null) {
+			historyCard = new HistoryCardView(this);
+		}
+		
+		// Specify layout parameters to be applied
+		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+		lp.setMargins(0, 20, 0, 0);
+		
+		updateHistoryCard(historyCard);
+		historyCard.setLayoutParams(lp);
+		
+        // Create the swipe-to-dismiss touch listener.
+		historyCard.setOnTouchListener(new SwipeDismissTouchListener(
+			historyCard,
+            null,
+            new SwipeDismissTouchListener.DismissCallbacks() {
+                @Override
+                public boolean canDismiss(Object token) {
+                    return true;
+                }
+
+                @Override
+                public void onDismiss(View view, Object token) {
+                	layout.removeView(historyCard);
+                }
+            }));
+
+        layout.addView(historyCard);
+        
+        // Register listeners for the buttons (must be done after adding the view)
+		ImageButton historyButton1 = (ImageButton) findViewById(R.id.button_history_search_1);
+		historyButton1.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+            	searchInputField.setText(historyCard.getHistory1().getText());
+            	performSearch();
+            }
+        });
+		
+		ImageButton historyButton2 = (ImageButton) findViewById(R.id.button_history_search_2);
+		historyButton2.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+            	searchInputField.setText(historyCard.getHistory2().getText());
+            	performSearch();
+            }
+        });
+		
+		ImageButton historyButton3 = (ImageButton) findViewById(R.id.button_history_search_3);
+		historyButton3.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+            	searchInputField.setText(historyCard.getHistory3().getText());
+            	performSearch();
+            }
+        });
+	}
+	
+	private void updateHistoryCard(HistoryCardView card) {
+		if(searchHistory != null) {
+			int last = searchHistory.size() - 1;
+			// TODO: Consider using a switch statement instead
+			if(last < 2) {
+				if(last < 1) {
+					card.setHistory1(searchHistory.get(last));
+					card.setHistory2(null);
+					card.setHistory3(null);
+				} else {
+					card.setHistory1(searchHistory.get(last));
+					card.setHistory2(searchHistory.get(last - 1));
+					card.setHistory3(null);
+				}
+			} else {
+				card.setHistory1(searchHistory.get(last));
+				card.setHistory2(searchHistory.get(last - 1));
+				card.setHistory3(searchHistory.get(last - 2));
+			}
+		}
+	}
+	
 	private void showSpinner() {
 		searchInputField.setVisibility(View.INVISIBLE);
 		
@@ -240,11 +330,22 @@ public class MainActivity extends Activity {
     	editor.apply();
     }
 	
+	private boolean matchesLatestSearch(String account) {
+		if(!searchHistory.isEmpty()) {
+			String latestSearch = searchHistory.get(searchHistory.size() - 1);
+			if(latestSearch != null) {
+				return latestSearch.equals(account);
+			}
+		}
+		return false;
+	}
+	
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 	    super.onSaveInstanceState(outState);
 	    // Store all breaches to be able to restore on configuration change
 	    ArrayList<Breach> savedBreaches = new ArrayList<Breach>();
+	    ArrayList<String> savedHistory = new ArrayList<String>();
 	    boolean firstLaunch = false;
 	    
 	    ViewGroup group = (ViewGroup) findViewById(R.id.now_layout);
@@ -261,12 +362,14 @@ public class MainActivity extends Activity {
 	    outState.putParcelableArrayList("savedBreaches", savedBreaches);
 	    outState.putString("savedSearchInput", searchInputField.getText().toString());
 	    outState.putBoolean("firstLaunch", firstLaunch);
+	    outState.putStringArrayList("savedHistory", savedHistory);
 	}
 	
 	@Override
 	protected void onRestoreInstanceState(Bundle savedInstanceState) {
 		// Retrieve saved breaches
 		ArrayList<Breach> savedBreaches = savedInstanceState.getParcelableArrayList("savedBreaches");
+		searchHistory = savedInstanceState.getStringArrayList("savedHistory");
 		
 		boolean firstLaunch = savedInstanceState.getBoolean("firstLaunch");
 		
@@ -317,6 +420,34 @@ public class MainActivity extends Activity {
 		return super.onMenuItemSelected(featureId, item);
 	}
 	
+	@Override
+	public void onStop() {
+		super.onStop();
+		if(db.isOutdated()) {
+			db.updateHistoryDB(searchHistory);
+		}
+		db.close();
+	}
+	
+	@Override
+	public void onPause() {
+		super.onPause();
+		Log.d(TAG, "onPause searchHistory: " + searchHistory);
+		if(db.isOutdated()) {
+			db.updateHistoryDB(searchHistory);
+		}
+		db.close();
+	}
+	
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		if(db.isOutdated()) {
+			db.updateHistoryDB(searchHistory);
+		}
+		db.close();
+	}
+	
 	private class PerformSearchTask extends AsyncTask<String, Void, ArrayList<Breach>> {
     	protected ArrayList<Breach> doInBackground(String... accounts) {
     		HaveIBeenPwnedAPI api = new HaveIBeenPwnedAPI();
@@ -335,6 +466,14 @@ public class MainActivity extends Activity {
 
         protected void onPostExecute(ArrayList<Breach> result) {
         	hideSpinner();
+        	
+        	// Create the history card if not already created by FetchHistoryTask
+    		if(historyCard == null) {
+    			displayHistoryCard();
+    		} else {
+    			updateHistoryCard(historyCard);
+    		}
+    		
         	if(result == null) {
         		Toast.makeText(getBaseContext(), getString(R.string.error_result_null), Toast.LENGTH_SHORT).show();
         		return;
@@ -344,5 +483,22 @@ public class MainActivity extends Activity {
         		}
         	}
         }
-     }
+    }
+	
+	private class FetchHistoryTask extends AsyncTask<Void, Void, ArrayList<String>> {
+    	protected ArrayList<String> doInBackground(Void... params) {
+			return db.getHistory();
+        }
+
+        protected void onPostExecute(ArrayList<String> result) {
+        	if(result == null) {
+        		Log.d(TAG, "onPostExecute: Empty history returned!");
+        		return;
+        	} else if(!result.isEmpty()) {
+        		searchHistory = result;
+        		db.setOutdated(false);
+        		displayHistoryCard();
+        	}
+        }
+    }
 }
