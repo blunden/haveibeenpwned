@@ -35,7 +35,10 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dip" >
+            android:paddingTop="10dip"
+			android:paddingLeft="18dip"
+			android:paddingRight="10dip"
+			android:paddingBottom="10dip" >
 
 	        <ProgressBar 
 	            android:id="@+id/search_spinner"
