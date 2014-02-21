@@ -97,8 +97,6 @@ public class DBAdapter {
     	open();
 		// Clear the database
 		db.delete(HISTORY_TABLE, null, null);
-		// Reset the sequence number (be more specific if more tables are added later)
-		db.delete("sqlite_sequence", null, null);
 		
 		int linesInserted = 0;
 		int startIndex = 0;
