@@ -237,6 +237,14 @@ public class MainActivity extends Activity {
             }
         });
 		
+		final TextView historyText1 = (TextView) findViewById(R.id.card_history_1);
+		historyText1.setOnLongClickListener(new View.OnLongClickListener() {
+            public boolean onLongClick(View view) {
+            	confirmDelete(historyCard.getHistory1().getText().toString(), 1);
+            	return true;
+            }
+        });
+		
 		ImageButton historyButton2 = (ImageButton) findViewById(R.id.button_history_search_2);
 		historyButton2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -245,11 +253,27 @@ public class MainActivity extends Activity {
             }
         });
 		
+		final TextView historyText2 = (TextView) findViewById(R.id.card_history_2);
+		historyText2.setOnLongClickListener(new View.OnLongClickListener() {
+            public boolean onLongClick(View view) {
+            	confirmDelete(historyCard.getHistory2().getText().toString(), 2);
+            	return true;
+            }
+        });
+		
 		ImageButton historyButton3 = (ImageButton) findViewById(R.id.button_history_search_3);
 		historyButton3.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
             	searchInputField.setText(historyCard.getHistory3().getText());
             	performSearch();
+            }
+        });
+		
+		final TextView historyText3 = (TextView) findViewById(R.id.card_history_3);
+		historyText3.setOnLongClickListener(new View.OnLongClickListener() {
+            public boolean onLongClick(View view) {
+            	confirmDelete(historyCard.getHistory3().getText().toString(), 3);
+            	return true;
             }
         });
 	}
@@ -275,6 +299,34 @@ public class MainActivity extends Activity {
 			}
 		}
 	}
+	
+	private void confirmDelete(String account, int id) {
+		AlertDialog confirmDialog = new AlertDialog.Builder(this)
+		.setTitle(account)
+		.setMessage(R.string.confirm_delete)
+		.setPositiveButton(R.string.yes, new DeleteOnClickListener(id))
+		.setNegativeButton(R.string.no, new OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.dismiss();
+			}
+		})
+		.create();
+		confirmDialog.show();
+	}
+	
+	private final class DeleteOnClickListener implements DialogInterface.OnClickListener {
+    	private int id;
+    	
+    	public DeleteOnClickListener(int id) {
+    		this.id = id;
+    	}
+		
+		public void onClick(DialogInterface dialog, int which) {
+			searchHistory.remove(searchHistory.size() - id);
+			updateHistoryCard(historyCard);
+    	}
+    }
 	
 	private void showSpinner() {
 		searchInputField.setVisibility(View.INVISIBLE);

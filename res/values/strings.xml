@@ -8,7 +8,10 @@
     <string name="toast_search">Searching…</string>
     
     <string name="about_message">Check if you have an account that has been compromised in a data breach.\n\nBased on the \'Have I Been Pwned?\' service by Troy Hunt.</string>
+    <string name="confirm_delete">Remove from search history?</string>
     
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
     <string name="ok">OK</string>
 	<string name="cancel">Cancel</string>
 	<string name="menu_about">About</string>
