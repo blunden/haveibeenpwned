@@ -74,10 +74,17 @@ public class MainActivity extends Activity {
 		
 		prepareAboutDialog();
 		
-		// Fetch the search history from the database and display the history card
-		new FetchHistoryTask().execute();
-		
-		searchHistory = new ArrayList<String>();
+		// Check if this is the first start and if so, fetch the history from the db
+		if(savedInstanceState == null) {
+			searchHistory = new ArrayList<String>();
+			// Fetch the search history from the database and display the history card
+			new FetchHistoryTask().execute();
+		} else {
+			// Since we are restoring from a configuration change (probably a rotation), searchHistory is populated already
+			if(!searchHistory.isEmpty()) {
+				displayHistoryCard();
+			}
+		}
 		
         searchInputField = (EditText) findViewById(R.id.input_search);
         
@@ -345,7 +352,6 @@ public class MainActivity extends Activity {
 	    super.onSaveInstanceState(outState);
 	    // Store all breaches to be able to restore on configuration change
 	    ArrayList<Breach> savedBreaches = new ArrayList<Breach>();
-	    ArrayList<String> savedHistory = new ArrayList<String>();
 	    boolean firstLaunch = false;
 	    
 	    ViewGroup group = (ViewGroup) findViewById(R.id.now_layout);
@@ -362,14 +368,14 @@ public class MainActivity extends Activity {
 	    outState.putParcelableArrayList("savedBreaches", savedBreaches);
 	    outState.putString("savedSearchInput", searchInputField.getText().toString());
 	    outState.putBoolean("firstLaunch", firstLaunch);
-	    outState.putStringArrayList("savedHistory", savedHistory);
+	    outState.putStringArrayList("searchHistory", searchHistory);
 	}
 	
 	@Override
 	protected void onRestoreInstanceState(Bundle savedInstanceState) {
 		// Retrieve saved breaches
 		ArrayList<Breach> savedBreaches = savedInstanceState.getParcelableArrayList("savedBreaches");
-		searchHistory = savedInstanceState.getStringArrayList("savedHistory");
+		searchHistory = savedInstanceState.getStringArrayList("searchHistory");
 		
 		boolean firstLaunch = savedInstanceState.getBoolean("firstLaunch");
 		
