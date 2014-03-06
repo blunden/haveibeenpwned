@@ -22,32 +22,7 @@
 	<string name="error_invalid_response">Invalid response from server</string>
 	<string name="error_json_parsing">Unable to parse server response</string>
 	
-	<string name="card_title_adobe">Adobe</string>
-	<string name="card_title_battlefield_heroes">Battlefield Heroes</string>
-	<string name="card_title_bell">Bell</string>
-	<string name="card_title_gawker">Gawker</string>
-	<string name="card_title_pixel_federation">Pixel Federation</string>
-	<string name="card_title_snapchat">Snapchat</string>
-	<string name="card_title_sony">Sony</string>
-	<string name="card_title_stratfor">Stratfor</string>
-	<string name="card_title_vodafone">Vodafone</string>
-	<string name="card_title_wpt">WPT Amateur Poker League</string>
-	<string name="card_title_yahoo">Yahoo</string>
-	
 	<string name="card_title_help">Instructions</string>
-	
-	<!-- Descriptions pulled from haveibeenpwned.com. Copyright (C) Troy Hunt -->
-	<string name="card_description_adobe">The big one. In October 2013, 153 million accounts were breached with each containing an internal ID, username, email, encrypted password and a password hint in plain text. The password cryptography was poorly done and many were quickly resolved back to plain text. The unencrypted hints also disclosed much about the passwords adding further to the risk that hundreds of millions of Adobe customers already faced.</string>
-	<string name="card_description_battlefield_heroes">In June 2011 as part of a final breached data dump, the hacker collective "LulzSec" obtained and released over half a million usernames and passwords from the game Battlefield Heroes. The passwords were stored as MD5 hashes with no salt and many were easily converted back to their plain text versions.</string>
-	<string name="card_description_bell">In February 2014, Bell Canada suffered a data breach via the hacker collective known as NullCrew. The breach included data from multiple locations within Bell and exposed email addresses, usernames, user preferences and a number of unencrypted passwords and credit card data from 40,000 records containing just over 20,000 unique email addresses and usernames.</string>
-	<string name="card_description_gawker">In December 2010, Gawker was attacked by the hacker collective "Gnosis" in retaliation for what was reported to be a feud between Gawker and 4Chan. Information about Gawkers 1.3M users was published along with the data from Gawker\'s other web presences including Gizmodo and Lifehacker. Due to the prevalence of password reuse, many victims of the breach then had their Twitter accounts compromised to send Acai berry spam.</string>
-	<string name="card_description_pixel_federation">In December 2013, a breach of the web-based game community based in Slovakia exposed over 38,000 accounts which were promptly posted online. The breach included email addresses and unsalted MD5 hashed passwords, many of which were easily converted back to plain text.</string>
-	<string name="card_description_snapchat">In January 2014 just one week after Gibson Security detailed vulnerabilities in the service, Snapchat had 4.6 million usernames and phone number exposed. The attack involved brute force enumeration of a large number of phone numbers against the Snapchat API in what appears to be a response to Snapchat\'s assertion that such an attack was "theoretical". Consequently, the breach enabled individual usernames (which are often used across other services) to be resolved to phone numbers which users usually wish to keep private.</string>
-	<string name="card_description_sony">In 2011, Sony suffered breach after breach after breach — it was a very bad year for them. The breaches spanned various areas of the business ranging from the PlayStation network all the way through to the motion picture arm, Sony Pictures. A SQL Injection vulnerability in sonypictures.com lead to tens of thousands of accounts across multiple systems being exposed complete with plain text passwords.</string>
-	<string name="card_description_stratfor">In December 2011, "Anonymous" attacked the global intelligence company and consequently disclosed a veritable treasure trove of data including hundreds of gigabytes of email and tens of thousands of credit card details which were promptly used by the attackers to make charitable donations (among other uses). The breach also included 860,000 user accounts complete with email address, time zone, some internal system data and MD5 hashed passwords with no salt.</string>	
-	<string name="card_description_vodafone">In November 2013, Vodafone in Iceland suffered an attack attributed to the Turkish hacker collective "Maxn3y". The data was consequently publicly exposed and included user names, email addresses, social security numbers, SMS message, server logs and passwords from a variety of different internal sources.</string>
-	<string name="card_description_wpt">In January 2014, the World Poker Tour (WPT) Amateur Poker League website was hacked by the Twitter user @smitt3nz. The attack resulted in the public disclosure of 175,000 accounts including 148,000 email addresses. The plain text password for each account was also included in the breach.</string>
-	<string name="card_description_yahoo">In July 2012, Yahoo! had their online publishing service "Voices" compromised via a SQL injection attack. The breach resulted in the disclosure of nearly half a million usernames and passwords stored in plain text. The breach showed that of the compromised accounts, a staggering 59% of people who also had accounts in the Sony breached reused their passwords across both services.</string>
 	
 	<string name="card_description_unavailable">No description available.</string>
 	<string name="card_description_help">Use the search field above to search for a username or email address to see if they were compromised in any of the hacks in recent years indexed by the \'Have I been pwned?\' service.</string>
