@@ -17,6 +17,7 @@
 package se.blunden.haveibeenpwned;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.AttributeSet;
@@ -113,6 +114,10 @@ public class CardView extends LinearLayout {
 		siteHeaderView = (TextView) findViewById(R.id.card_site_header);
 		siteAccountView = (TextView) findViewById(R.id.card_site_account);
 		siteDescriptionView = (TextView) findViewById(R.id.card_site_description);
+		
+		// Set the Roboto Light font on the header (not done in the layout due to pre-4.1 compatibility)
+		Typeface robotoLight = Typeface.createFromAsset(context.getAssets(), "fonts/Roboto-Light.ttf");
+		siteHeaderView.setTypeface(robotoLight);
 		
 		// Store the Breach object for later use, such as restoring state
 		breachData = breach;

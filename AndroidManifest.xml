@@ -4,9 +4,8 @@
     android:versionCode="9"
     android:versionName="1.8" >
 
-    <!-- Minimum API level set to 16 to allow usage of Roboto Light. -->
     <uses-sdk
-        android:minSdkVersion="16"
+        android:minSdkVersion="14"
         android:targetSdkVersion="19" />
     
     <uses-permission android:name="android.permission.INTERNET" />

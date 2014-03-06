@@ -17,6 +17,7 @@
 package se.blunden.haveibeenpwned;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.animation.Animation;
@@ -99,5 +100,9 @@ public class HelpCardView extends LinearLayout {
 		headerView = (TextView) findViewById(R.id.card_header);
 		descriptionView = (TextView) findViewById(R.id.card_description);
 		dismissTextView = (TextView) findViewById(R.id.card_dismiss);
+		
+		// Set the Roboto Light font on the header (not done in the layout due to pre-4.1 compatibility)
+		Typeface robotoLight = Typeface.createFromAsset(context.getAssets(), "fonts/Roboto-Light.ttf");
+		headerView.setTypeface(robotoLight);
 	}
 }
