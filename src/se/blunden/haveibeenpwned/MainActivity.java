@@ -25,6 +25,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.DialogInterface.OnClickListener;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -108,6 +110,12 @@ public class MainActivity extends Activity {
 	}
 	
 	private void performSearch() {
+		if(!isConnected()) {
+			Log.e(TAG, "No internet connection detected");
+			Toast.makeText(getBaseContext(), getString(R.string.error_no_connection), Toast.LENGTH_SHORT).show();
+			return;
+		}
+		
 		String account = searchInputField.getText().toString().trim();
     	
     	// Add to search history unless it matches the most recently searched account
@@ -377,6 +385,13 @@ public class MainActivity extends Activity {
 			}
 		}
 	}
+	
+	public boolean isConnected() {
+    	ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+    	NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+    	
+    	return (activeNetwork != null && activeNetwork.isConnected());
+    }
 	
 	private boolean isFirstLaunch() {
     	return mPreferences.getBoolean("firstLaunch", true);

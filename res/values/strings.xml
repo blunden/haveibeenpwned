@@ -21,6 +21,7 @@
 	<string name="error_invalid_uri_syntax">Invalid URI syntax</string>
 	<string name="error_invalid_response">Invalid response from server</string>
 	<string name="error_json_parsing">Unable to parse server response</string>
+	<string name="error_no_connection">No internet connection detected</string>
 	
 	<string name="card_title_help">Instructions</string>
 	
