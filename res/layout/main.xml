@@ -35,7 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             card_view:contentPaddingTop="10dip"
-			card_view:contentPaddingLeft="18dip"
+			card_view:contentPaddingLeft="16dip"
 			card_view:contentPaddingRight="10dip"
 			card_view:contentPaddingBottom="10dip"
 			card_view:cardUseCompatPadding="true" >

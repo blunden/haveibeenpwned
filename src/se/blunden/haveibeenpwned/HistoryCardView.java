@@ -102,7 +102,7 @@ public class HistoryCardView extends CardView {
 	
 	private void initialize(Context context) {
 		// Set the content padding
-		setContentPadding(18, 10, 18, 10);
+		setContentPadding(18, 10, 20, 10);
 		// Enable compat padding to use the same padding on Lollipop and older platforms
 		setUseCompatPadding(true);
 		// Inflate the card layout
