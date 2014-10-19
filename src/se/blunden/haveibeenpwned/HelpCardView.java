@@ -18,17 +18,17 @@ package se.blunden.haveibeenpwned;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 /**
  * Custom ViewGroup that animates into view when added.
  */
-public class HelpCardView extends LinearLayout {
+public class HelpCardView extends CardView {
 
 	private TextView headerView;
 	private TextView descriptionView;
@@ -92,6 +92,8 @@ public class HelpCardView extends LinearLayout {
 	}
 	
 	private void initialize(Context context) {
+		// Set the content padding
+		setContentPadding(18, 10, 10, 10);
 		// Inflate the card layout
 		LayoutInflater  mInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mInflater.inflate(R.layout.now_help_card, this, true);

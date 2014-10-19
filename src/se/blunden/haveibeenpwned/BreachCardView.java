@@ -18,19 +18,19 @@ package se.blunden.haveibeenpwned;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.support.v7.widget.CardView;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 /**
  * Custom ViewGroup that animates into view when added.
  */
-public class CardView extends LinearLayout {
+public class BreachCardView extends CardView {
 
 	private TextView siteHeaderView;
 	private TextView siteAccountView;
@@ -39,17 +39,17 @@ public class CardView extends LinearLayout {
 	// Store a Breach object with all relevant data about the breach
 	private Breach breachData;
 	
-	public CardView(Context context, Breach breach) {
+	public BreachCardView(Context context, Breach breach) {
 		super(context);
 		initialize(context, breach);
 	}
 	
-	public CardView(Context context, Breach breach, AttributeSet attrs) {
+	public BreachCardView(Context context, Breach breach, AttributeSet attrs) {
 		super(context, attrs);
 		initialize(context, breach);
 	}
 	
-	public CardView(Context context, Breach breach, AttributeSet attrs, int defStyle) {
+	public BreachCardView(Context context, Breach breach, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		initialize(context, breach);
 	}
@@ -106,6 +106,8 @@ public class CardView extends LinearLayout {
 	}
 	
 	private void initialize(Context context, Breach breach) {
+		// Set the content padding
+		setContentPadding(18, 10, 10, 10);
 		// Inflate the card layout
 		LayoutInflater  mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mInflater.inflate(R.layout.now_card, this, true);

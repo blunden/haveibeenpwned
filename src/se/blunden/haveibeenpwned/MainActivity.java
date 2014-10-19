@@ -140,11 +140,11 @@ public class MainActivity extends Activity {
 		final LinearLayout layout = (LinearLayout) findViewById(R.id.now_layout);
 		
 		// Create the View for the card and pass along the breach data used to populate it
-		final CardView card = new CardView(this, breach);
+		final BreachCardView card = new BreachCardView(this, breach);
 		
 		// Specify layout parameters to be applied
 		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-		lp.setMargins(0, 20, 0, 0);
+		lp.setMargins(0, 30, 0, 0);
 		
 		card.setLayoutParams(lp);
 		
@@ -176,7 +176,7 @@ public class MainActivity extends Activity {
 		
 		// Specify layout parameters to be applied
 		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-		lp.setMargins(0, 20, 0, 0);
+		lp.setMargins(0, 30, 0, 0);
 		
 		card.setHeaderText(getString(R.string.card_title_help));
 		card.setDescriptionText(getString(R.string.card_description_help));
@@ -213,7 +213,7 @@ public class MainActivity extends Activity {
 		
 		// Specify layout parameters to be applied
 		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-		lp.setMargins(0, 20, 0, 0);
+		lp.setMargins(0, 30, 0, 0);
 		
 		updateHistoryCard(historyCard);
 		historyCard.setLayoutParams(lp);
@@ -375,7 +375,7 @@ public class MainActivity extends Activity {
 			int i;
 			for (i = 0; i < count; i++) {
 				View view = group.getChildAt(i);
-		        if (view instanceof CardView || view instanceof HelpCardView) {
+		        if (view instanceof BreachCardView || view instanceof HelpCardView) {
 		        	group.removeView(view);
 		        	break;
 		        }
@@ -424,8 +424,8 @@ public class MainActivity extends Activity {
 	    ViewGroup group = (ViewGroup) findViewById(R.id.now_layout);
 	    for (int i = 0, count = group.getChildCount(); i < count; ++i) {
 	        View view = group.getChildAt(i);
-	        if (view instanceof CardView) {
-	        	savedBreaches.add(((CardView) view).getBreach());
+	        if (view instanceof BreachCardView) {
+	        	savedBreaches.add(((BreachCardView) view).getBreach());
 	        }
 	        if (view instanceof HelpCardView) {
 	        	firstLaunch = true;
@@ -468,9 +468,9 @@ public class MainActivity extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		super.onCreateOptionsMenu(menu);
 		menu.add(0, ABOUT_ID, 0, R.string.menu_about)
-			.setIcon(android.R.drawable.ic_menu_info_details).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+			.setIcon(R.drawable.ic_actionbar_info).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 		menu.add(0, CLEAR_ALL_ID, 0, R.string.menu_clear_all)
-			.setIcon(android.R.drawable.ic_menu_close_clear_cancel).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+			.setIcon(R.drawable.ic_actionbar_clear_all).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
 		
 		return true;
 	}

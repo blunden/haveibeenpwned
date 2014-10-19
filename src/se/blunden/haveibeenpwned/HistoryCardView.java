@@ -17,17 +17,17 @@
 package se.blunden.haveibeenpwned;
 
 import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 /**
  * Custom ViewGroup that animates into view when added.
  */
-public class HistoryCardView extends LinearLayout {
+public class HistoryCardView extends CardView {
 
 	private TextView history1;
 	private TextView history2;
@@ -101,6 +101,8 @@ public class HistoryCardView extends LinearLayout {
 	}
 	
 	private void initialize(Context context) {
+		// Set the content padding
+		setContentPadding(18, 10, 18, 10);
 		// Inflate the card layout
 		LayoutInflater  mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mInflater.inflate(R.layout.now_history_card, this, true);
