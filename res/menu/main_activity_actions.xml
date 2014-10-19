@@ -1,0 +1,13 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto" >
+    <item
+        android:id="@+id/action_about"
+        android:title="@string/menu_about"
+        android:icon="@drawable/ic_actionbar_info"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_clear_all"
+        android:title="@string/menu_clear_all"
+        android:icon="@drawable/ic_actionbar_clear_all"
+        app:showAsAction="ifRoom" />
+</menu>

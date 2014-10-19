@@ -19,7 +19,6 @@ package se.blunden.haveibeenpwned;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -29,9 +28,11 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,11 +43,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends Activity {
+public class MainActivity extends ActionBarActivity {
 	private static final String TAG = "HaveIBeenPwned";
-	
-	private static final int ABOUT_ID = Menu.FIRST;
-	private static final int CLEAR_ALL_ID = Menu.FIRST + 1;
 	
 	private static String aboutMessage = null;
 	private AlertDialog mAboutDialog;
@@ -144,7 +142,7 @@ public class MainActivity extends Activity {
 		
 		// Specify layout parameters to be applied
 		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-		lp.setMargins(0, 30, 0, 0);
+		lp.setMargins(0, 20, 0, 0);
 		
 		card.setLayoutParams(lp);
 		
@@ -176,7 +174,7 @@ public class MainActivity extends Activity {
 		
 		// Specify layout parameters to be applied
 		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-		lp.setMargins(0, 30, 0, 0);
+		lp.setMargins(0, 20, 0, 0);
 		
 		card.setHeaderText(getString(R.string.card_title_help));
 		card.setDescriptionText(getString(R.string.card_description_help));
@@ -213,7 +211,7 @@ public class MainActivity extends Activity {
 		
 		// Specify layout parameters to be applied
 		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-		lp.setMargins(0, 30, 0, 0);
+		lp.setMargins(0, 20, 0, 0);
 		
 		updateHistoryCard(historyCard);
 		historyCard.setLayoutParams(lp);
@@ -466,23 +464,21 @@ public class MainActivity extends Activity {
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		super.onCreateOptionsMenu(menu);
-		menu.add(0, ABOUT_ID, 0, R.string.menu_about)
-			.setIcon(R.drawable.ic_actionbar_info).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-		menu.add(0, CLEAR_ALL_ID, 0, R.string.menu_clear_all)
-			.setIcon(R.drawable.ic_actionbar_clear_all).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-		
-		return true;
+		// Inflate the menu items for use in the action bar
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.main_activity_actions, menu);
+	    
+	    return super.onCreateOptionsMenu(menu);
 	}
 
 	@Override
-	public boolean onMenuItemSelected(int featureId, MenuItem item) {
+	public boolean onOptionsItemSelected(MenuItem item) {
 		switch(item.getItemId()) {
-		case ABOUT_ID:
+		case R.id.action_about:
 			mAboutDialog.show();
 			return true;
 		
-		case CLEAR_ALL_ID:
+		case R.id.action_clear_all:
 			// Clear the search field
         	searchInputField.setText("");
 			// Remove all the cards
@@ -490,7 +486,7 @@ public class MainActivity extends Activity {
 			return true;
 		}
 
-		return super.onMenuItemSelected(featureId, item);
+		return super.onOptionsItemSelected(item);
 	}
 	
 	@Override

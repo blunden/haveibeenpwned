@@ -103,6 +103,8 @@ public class HistoryCardView extends CardView {
 	private void initialize(Context context) {
 		// Set the content padding
 		setContentPadding(18, 10, 18, 10);
+		// Enable compat padding to use the same padding on Lollipop and older platforms
+		setUseCompatPadding(true);
 		// Inflate the card layout
 		LayoutInflater  mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mInflater.inflate(R.layout.now_history_card, this, true);

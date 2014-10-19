@@ -27,7 +27,7 @@
 	    android:orientation="horizontal"
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
-	    android:paddingTop="2dip"
+	    android:paddingTop="4dip"
 	    android:paddingLeft="10dip"
 	    android:paddingBottom="10dip" >
 	        
@@ -103,7 +103,7 @@
 	    android:layout_height="wrap_content"
 	    android:paddingTop="10dip"
 	    android:paddingLeft="10dip"
-	    android:paddingBottom="2dip" >
+	    android:paddingBottom="4dip" >
 	        
 	    <TextView 
 	        android:id="@+id/card_history_3"
