@@ -58,7 +58,7 @@ public class HistoryCardView extends CardView {
 	
 	public void setHistory1(String history) {
 		if(history == null) {
-			findViewById(R.id.button_history_search_1).setVisibility(GONE);
+			findViewById(R.id.card_history_layout_1).setVisibility(GONE);
 		} else {
 			history1.setText(history);
 			findViewById(R.id.card_history_layout_1).setVisibility(VISIBLE);

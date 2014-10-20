@@ -285,23 +285,38 @@ public class MainActivity extends ActionBarActivity {
 	}
 	
 	private void updateHistoryCard(HistoryCardView card) {
-		if(searchHistory != null) {
+		// card should never end up null here but check just in case
+		if(searchHistory != null && card != null) {
 			int last = searchHistory.size() - 1;
-			// TODO: Consider using a switch statement instead
-			if(last < 2) {
-				if(last < 1) {
+			switch(last) {
+				case 0:
 					card.setHistory1(searchHistory.get(last));
 					card.setHistory2(null);
 					card.setHistory3(null);
-				} else {
+					break;
+				
+				case 1:
 					card.setHistory1(searchHistory.get(last));
 					card.setHistory2(searchHistory.get(last - 1));
 					card.setHistory3(null);
-				}
-			} else {
-				card.setHistory1(searchHistory.get(last));
-				card.setHistory2(searchHistory.get(last - 1));
-				card.setHistory3(searchHistory.get(last - 2));
+					break;
+					
+				case 2:
+					card.setHistory1(searchHistory.get(last));
+					card.setHistory2(searchHistory.get(last - 1));
+					card.setHistory3(searchHistory.get(last - 2));
+					break;
+				
+				default: //case -1 primarily
+					card.setHistory1(null);
+					card.setHistory2(null);
+					card.setHistory3(null);
+					// Removes the history card view
+					final LinearLayout layout = (LinearLayout) findViewById(R.id.now_layout);
+					layout.removeView(historyCard);
+					// Setting it to null will make it get recreated the next time a search is made
+					historyCard = null;
+					break;
 			}
 		}
 	}
@@ -329,7 +344,9 @@ public class MainActivity extends ActionBarActivity {
     	}
 		
 		public void onClick(DialogInterface dialog, int which) {
-			searchHistory.remove(searchHistory.size() - id);
+			if(searchHistory.size() > 0) {
+				searchHistory.remove(searchHistory.size() - id);
+			}
 			updateHistoryCard(historyCard);
     	}
     }
