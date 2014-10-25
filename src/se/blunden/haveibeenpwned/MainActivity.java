@@ -289,6 +289,15 @@ public class MainActivity extends ActionBarActivity {
 		if(searchHistory != null && card != null) {
 			int last = searchHistory.size() - 1;
 			switch(last) {
+				case -1:
+					Log.d(TAG, "last index: " + last);
+					card.setHistory1(null);
+					card.setHistory2(null);
+					card.setHistory3(null);
+					// Removes the history card view
+					final LinearLayout layout = (LinearLayout) findViewById(R.id.now_layout);
+					layout.removeView(historyCard);
+					break;
 				case 0:
 					card.setHistory1(searchHistory.get(last));
 					card.setHistory2(null);
@@ -301,19 +310,10 @@ public class MainActivity extends ActionBarActivity {
 					card.setHistory3(null);
 					break;
 					
-				case 2:
+				default: // Enough search history to fill all 3 slots
 					card.setHistory1(searchHistory.get(last));
 					card.setHistory2(searchHistory.get(last - 1));
 					card.setHistory3(searchHistory.get(last - 2));
-					break;
-				
-				default: //case -1 primarily
-					card.setHistory1(null);
-					card.setHistory2(null);
-					card.setHistory3(null);
-					// Removes the history card view
-					final LinearLayout layout = (LinearLayout) findViewById(R.id.now_layout);
-					layout.removeView(historyCard);
 					break;
 			}
 		}
