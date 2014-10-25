@@ -251,11 +251,12 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
             @Override
             public void onAnimationEnd(Animator animation) {
                 mCallbacks.onDismiss(mView, mToken);
-                // Reset view presentation
+                // Skip resetting the view presentation. Causes visual glitches on pre-Lollipop with CardView.
+                /*// Reset view presentation
                 mView.setAlpha(1f);
                 mView.setTranslationX(0);
                 lp.height = originalHeight;
-                mView.setLayoutParams(lp);
+                mView.setLayoutParams(lp);*/
             }
         });
 
