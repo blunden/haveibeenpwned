@@ -314,8 +314,6 @@ public class MainActivity extends ActionBarActivity {
 					// Removes the history card view
 					final LinearLayout layout = (LinearLayout) findViewById(R.id.now_layout);
 					layout.removeView(historyCard);
-					// Setting it to null will make it get recreated the next time a search is made
-					historyCard = null;
 					break;
 			}
 		}
