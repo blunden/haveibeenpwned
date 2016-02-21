@@ -1,5 +1,5 @@
 /*
-* Copyright (C) 2014 Bjˆrn LundÈn
+* Copyright (C) 2014 blunden
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -99,7 +99,7 @@ public class HaveIBeenPwnedAPI {
 			} else if(tokenName.equals("Description")) {
 				description = reader.nextString();
 				// Needed because the API currently returns improperly formatted/escaped data breaking URL parsing
-				String[] invalid = {"î ", " ì", "î","ì"};
+				String[] invalid = {"‚Äù ", " ‚Äú", "‚Äù","‚Äú"};
 				String[] correct = {"\"", "\"", "\"", "\""};
 				description = TextUtils.replace(description, invalid, correct).toString();
 			} else {
