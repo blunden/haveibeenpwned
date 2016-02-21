@@ -30,7 +30,6 @@ proguard/
 Thumbs.db
 
 # Intellij project files
-*.iml
 *.ipr
 *.iws
 .idea/
