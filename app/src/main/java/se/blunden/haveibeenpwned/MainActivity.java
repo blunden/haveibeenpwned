@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
 			}
 		}
 		
-        searchInputField = (EditText) findViewById(R.id.input_search);
+        searchInputField = findViewById(R.id.input_search);
         
         searchInputField.setOnEditorActionListener(new EditText.OnEditorActionListener() {
             @Override
@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        searchButton = (ImageButton) findViewById(R.id.button_search);
+        searchButton = findViewById(R.id.button_search);
         searchButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
             	performSearch();
@@ -135,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
 
 	private void displayOutput(Breach breach) {
 		// Get a reference to the layout where the card will be displayed
-		final LinearLayout layout = (LinearLayout) findViewById(R.id.now_layout);
+		final LinearLayout layout = findViewById(R.id.now_layout);
 		
 		// Create the View for the card and pass along the breach data used to populate it
 		final BreachCardView card = new BreachCardView(this, breach);
@@ -167,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
 	
 	private void displayHelpCard() {
 		// Get a reference to the layout where the card will be displayed
-		final LinearLayout layout = (LinearLayout) findViewById(R.id.now_layout);
+		final LinearLayout layout = findViewById(R.id.now_layout);
 		
 		// Create the View for the card 
 		final HelpCardView card = new HelpCardView(this);
@@ -202,7 +202,7 @@ public class MainActivity extends AppCompatActivity {
 	
 	private void displayHistoryCard() {
 		// Get a reference to the layout where the card will be displayed
-		final LinearLayout layout = (LinearLayout) findViewById(R.id.now_layout);
+		final LinearLayout layout = findViewById(R.id.now_layout);
 		
 		// Create the View for the card and save the reference
 		if(historyCard == null) {
@@ -235,7 +235,7 @@ public class MainActivity extends AppCompatActivity {
         layout.addView(historyCard);
         
         // Register listeners for the buttons (must be done after adding the view)
-		ImageButton historyButton1 = (ImageButton) findViewById(R.id.button_history_search_1);
+		ImageButton historyButton1 = findViewById(R.id.button_history_search_1);
 		historyButton1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
             	searchInputField.setText(historyCard.getHistory1().getText());
@@ -243,7 +243,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 		
-		final TextView historyText1 = (TextView) findViewById(R.id.card_history_1);
+		final TextView historyText1 = findViewById(R.id.card_history_1);
 		historyText1.setOnLongClickListener(new View.OnLongClickListener() {
             public boolean onLongClick(View view) {
             	confirmDelete(historyCard.getHistory1().getText().toString(), 1);
@@ -251,7 +251,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 		
-		ImageButton historyButton2 = (ImageButton) findViewById(R.id.button_history_search_2);
+		ImageButton historyButton2 = findViewById(R.id.button_history_search_2);
 		historyButton2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
             	searchInputField.setText(historyCard.getHistory2().getText());
@@ -259,7 +259,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 		
-		final TextView historyText2 = (TextView) findViewById(R.id.card_history_2);
+		final TextView historyText2 = findViewById(R.id.card_history_2);
 		historyText2.setOnLongClickListener(new View.OnLongClickListener() {
             public boolean onLongClick(View view) {
             	confirmDelete(historyCard.getHistory2().getText().toString(), 2);
@@ -267,7 +267,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 		
-		ImageButton historyButton3 = (ImageButton) findViewById(R.id.button_history_search_3);
+		ImageButton historyButton3 = findViewById(R.id.button_history_search_3);
 		historyButton3.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
             	searchInputField.setText(historyCard.getHistory3().getText());
@@ -275,7 +275,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 		
-		final TextView historyText3 = (TextView) findViewById(R.id.card_history_3);
+		final TextView historyText3 = findViewById(R.id.card_history_3);
 		historyText3.setOnLongClickListener(new View.OnLongClickListener() {
             public boolean onLongClick(View view) {
             	confirmDelete(historyCard.getHistory3().getText().toString(), 3);
@@ -295,7 +295,7 @@ public class MainActivity extends AppCompatActivity {
 					card.setHistory2(null);
 					card.setHistory3(null);
 					// Removes the history card view
-					final LinearLayout layout = (LinearLayout) findViewById(R.id.now_layout);
+					final LinearLayout layout = findViewById(R.id.now_layout);
 					layout.removeView(historyCard);
 					break;
 				case 0:
@@ -383,7 +383,7 @@ public class MainActivity extends AppCompatActivity {
 	private void clearAllCards() {
 		boolean finished = false;
 		while(!finished) {
-			ViewGroup group = (ViewGroup) findViewById(R.id.now_layout);
+			ViewGroup group = findViewById(R.id.now_layout);
 			int count = group.getChildCount();
 			int i;
 			for (i = 0; i < count; i++) {
@@ -434,7 +434,7 @@ public class MainActivity extends AppCompatActivity {
 	    ArrayList<Breach> savedBreaches = new ArrayList<Breach>();
 	    boolean firstLaunch = false;
 	    
-	    ViewGroup group = (ViewGroup) findViewById(R.id.now_layout);
+	    ViewGroup group = findViewById(R.id.now_layout);
 	    for (int i = 0, count = group.getChildCount(); i < count; ++i) {
 	        View view = group.getChildAt(i);
 	        if (view instanceof BreachCardView) {
